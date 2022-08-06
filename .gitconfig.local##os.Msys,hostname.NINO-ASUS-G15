@@ -1,0 +1,5 @@
+# -*- mode: conf-unix -*-
+[user]
+	name = Nino Maruszewski
+	email = nino.maruszewski@gmail.com
+	signingkey = 5D52587A22AFB643

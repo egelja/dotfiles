@@ -11,9 +11,6 @@
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
-[user]
-	name = Nino Maruszewski
-	email = nino.maruszewski@gmail.com
 [tag]
 	gpgSign = true
 [pull]
