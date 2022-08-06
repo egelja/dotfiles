@@ -135,6 +135,11 @@ export MAVEN_HOME=$M2_HOME
 eval "$(starship init bash)"
 export STARSHIP_CONFIG=~/.config/starship.toml
 
+# Symlinks on windows
+if [[ $(uname -o) -eq Msys ]]; then
+    export MSYS="winsymlinks:nativestrict"
+fi
+
 # virtualenvwrapper
 #export WORKON_HOME=~/.envs
 #export VIRTUALENVWRAPPER_WORKON_CD=0
