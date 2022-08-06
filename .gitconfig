@@ -1,0 +1,20 @@
+[core]
+	excludesFile = ~/.gitignore
+	autocrlf = input
+	attributesfile = ~/.gitattributes
+	editor = nano
+[commit]
+	gpgsign = true
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+[user]
+	name = Nino Maruszewski
+	email = nino.maruszewski@gmail.com
+	signingkey = 5D52587A22AFB643
+[tag]
+	gpgSign = true
+[pull]
+	rebase = false
