@@ -111,7 +111,7 @@ if ! shopt -oq posix; then
 fi
 
 # Local bin
-export PATH=$HOME/.local/bin/:$HOME/.bin:$PATH
+export PATH=$HOME/bin:$HOME/.local/bin/:$PATH
 
 # tldr stuff
 complete -W "$(tldr 2>/dev/null --list)" tldr
