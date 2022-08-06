@@ -1,3 +1,4 @@
+# -*- mode: conf-unix -*-
 [core]
 	excludesFile = ~/.gitignore
 	autocrlf = input
@@ -13,8 +14,9 @@
 [user]
 	name = Nino Maruszewski
 	email = nino.maruszewski@gmail.com
-	signingkey = 5D52587A22AFB643
 [tag]
 	gpgSign = true
 [pull]
 	rebase = false
+[include]
+	path = .gitconfig.local
