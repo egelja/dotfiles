@@ -1,0 +1,15 @@
+diff --git a/config.h b/config.h
+index c91c598..7938fb8 100644
+--- a/config.h
++++ b/config.h
+@@ -21,7 +21,7 @@ static const char *PAGES_LANG = "/pages";              /*  English */
+ /* static const char *PAGES_LANG = "/pages.zh"; */     /*  Chinese */
+
+ /* Colors and styling. */
+-static const char *HEADING_STYLE = "\033[31m";
+-static const char *SUBHEADING_STYLE = "\033[22;4m";
++static const char *HEADING_STYLE = "\033[31;1m";
++static const char *SUBHEADING_STYLE = "\033[22m";
+ static const char *COMMAND_DESC_STYLE = "\033[22;32m";
+-static const char *COMMAND_STYLE = "\033[1m";
++static const char *COMMAND_STYLE = "  \033[33m";
