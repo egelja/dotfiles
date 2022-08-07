@@ -24,3 +24,6 @@ if [[ $(uname -o) == "Msys" ]]; then
     echo 'Setting $HOME because windows is stupid!'
     cmd /c 'setx HOME "%userprofile%"'
 fi
+
+# Init tldr index
+~/bin/tldr -u
