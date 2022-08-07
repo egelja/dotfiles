@@ -23,6 +23,6 @@ curl -fsL "$starship_zip_download_url" -o ~/bin/starship.zip &&
 {% else %}
 
 # Use starship installer
-bash -c "$(curl -fsSL https://starship.rs/install.sh)"
+curl -sS https://starship.rs/install.sh | sh
 
 {% endif %}
