@@ -1,0 +1,7 @@
+# -*- mode: conf-unix -*-
+[user]
+	name = Nino Maruszewski
+	email = nino.maruszewski@gmail.com
+	signingkey = 5D52587A22AFB643
+[gpg]
+	program = "/mnt/c/msys64/usr/bin/gpg.exe"
