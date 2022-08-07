@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/bin/bash
 # -*- mode: shell-script -*-
 
 #
@@ -34,4 +34,3 @@ for pkg in ${MINGW_PACKAGES[@]}; do
     echo "- $pkg"
     winget install $pkg
 done
-
