@@ -20,7 +20,7 @@ cd ~
 rm -rf ./untldr
 
 # Set $HOME for Windows
-if [[ $(uname -o) -eq "Msys" ]]; then
+if [[ $(uname -o) == "Msys" ]]; then
     echo 'Setting $HOME because windows is stupid!'
     cmd /c 'setx HOME "%userprofile%"'
 fi

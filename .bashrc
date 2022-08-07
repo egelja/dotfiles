@@ -136,7 +136,7 @@ eval "$(starship init bash)"
 export STARSHIP_CONFIG=~/.config/starship.toml
 
 # Symlinks on windows
-if [[ $(uname -o) -eq Msys ]]; then
+if [[ $(uname -o) == "Msys" ]]; then
     export MSYS="winsymlinks:nativestrict"
 fi
 
