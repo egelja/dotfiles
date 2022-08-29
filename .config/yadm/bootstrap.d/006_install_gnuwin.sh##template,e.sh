@@ -6,22 +6,28 @@
 
 {% if yadm.os == "Msys" %}
 
+__install_from_sourceforge() {
+    curl -L $1 -o download.zip &&
+        unzip download.zip &&  # unzip from MSys2
+        /bin/rm download.zip
+}
+
 cd ~
 
 echo "Installing DiffUtils"
-curl -L https://sourceforge.net/projects/gnuwin32/files/diffutils/2.8.7-1/diffutils-2.8.7-1-bin.zip/download -o diffutils.zip &&
-    unzip diffutils.zip &&
-    /bin/rm diffutils.zip
+__install_from_sourceforge https://sourceforge.net/projects/gnuwin32/files/diffutils/2.8.7-1/diffutils-2.8.7-1-bin.zip/download
+
+echo "Installing LibIntl (DiffUtils dep)"
+__install_from_sourceforge https://sourceforge.net/projects/gnuwin32/files/libintl/0.14.4/libintl-0.14.4-bin.zip/download
+
+echo "Installing LibIConv (DiffUtils dep)"
+__install_from_sourceforge https://sourceforge.net/projects/gnuwin32/files/libiconv/1.9.2-1/libiconv-1.9.2-1-bin.zip/download
 
 echo "Installing Zip"
-curl -L https://sourceforge.net/projects/gnuwin32/files/zip/3.0/zip-3.0-bin.zip/download -o zip.zip &&
-    unzip zip.zip &&
-    /bin/rm zip.zip
+__install_from_sourceforge https://sourceforge.net/projects/gnuwin32/files/zip/3.0/zip-3.0-bin.zip/download
 
 echo "Installing UnZip"
-curl -L https://sourceforge.net/projects/gnuwin32/files/unzip/5.51-1/unzip-5.51-1-bin.zip/download -o unzip.zip &&
-    unzip unzip.zip &&
-    /bin/rm unzip.zip
+__install_from_sourceforge https://sourceforge.net/projects/gnuwin32/files/unzip/5.51-1/unzip-5.51-1-bin.zip/download
 
 {% else %}
 
