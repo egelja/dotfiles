@@ -4,6 +4,7 @@
 	autocrlf = input
 	attributesfile = ~/.gitattributes
 	editor = nano
+	symlinks = true
 [commit]
 	gpgsign = true
 [filter "lfs"]
@@ -17,3 +18,5 @@
 	rebase = false
 [include]
 	path = .gitconfig.local
+[gpg]
+	format = ssh
