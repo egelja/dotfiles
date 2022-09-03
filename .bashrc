@@ -114,13 +114,13 @@ fi
 export PATH=$HOME/bin:$HOME/.local/bin/:$PATH
 
 # tldr stuff
-complete -W "$(tldr 2>/dev/null --list)" tldr
-export TLDR_HEADER='bold'
-export TLDR_QUOTE='default'
-export TLDR_DESCRIPTION='green'
-export TLDR_CODE='red'
-export TLDR_PARAM='cyan'
-export TLDR_LANGUAGE='en'
+#complete -W "$(tldr 2>/dev/null --list)" tldr
+#export TLDR_HEADER='bold'
+#export TLDR_QUOTE='default'
+#export TLDR_DESCRIPTION='green'
+#export TLDR_CODE='red'
+#export TLDR_PARAM='cyan'
+#export TLDR_LANGUAGE='en'
 
 # fix colors
 export LS_COLORS="$LS_COLORS:ow=1;34:tw=1;34:"
