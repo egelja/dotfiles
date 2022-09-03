@@ -17,6 +17,7 @@ declare -a PACKAGES=(
     "zip"
     "unzip"
     "diffutils"
+    "keychain"
 )
 
 echo "Installing apt packages:"
