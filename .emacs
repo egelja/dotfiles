@@ -63,6 +63,12 @@
 ;; (run-at-time "10 sec" nil 'elcord--disable-elcord-if-no-frames -1)
 
 ;;;
+;;; KEYBINDINGS
+;;;
+(global-set-key (kbd "C-M-s")
+		'scratch-pop)
+
+;;;
 ;;; THEME SETTINGS
 ;;;
 (setq column-number-mode t)
@@ -79,7 +85,7 @@
  '(elcord-editor-icon nil)
  '(elcord-use-major-mode-as-main-icon t)
  '(package-selected-packages
-   '(yaml-mode ahk-mode restart-emacs julia-mode ssh-config-mode emojify logview markdown-mode typescript-mode powershell gcode-mode elisp-format spacemacs-theme dracula-theme)))
+   '(scratch-pop yaml-mode ahk-mode restart-emacs julia-mode ssh-config-mode emojify logview markdown-mode typescript-mode powershell gcode-mode elisp-format spacemacs-theme dracula-theme)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
