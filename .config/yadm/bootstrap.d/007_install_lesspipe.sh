@@ -10,7 +10,11 @@ git clone https://github.com/wofr06/lesspipe.git &&
 # Build and install
 ./configure --prefix=~/.local
 make
-make test
+if [[ $(uname -o) == "Msys" ]]; then
+    echo "Skipping tests as on windows"
+else
+    make test
+fi
 make install
 
 # Remove build directory
