@@ -117,7 +117,7 @@ export PATH="$HOME/.local/bin:$PATH"
 eval `keychain --eval --agents ssh id_ed25519`
 
 # Lesspipe
-export LESSOPEN="|- $HOME/.local/bin/lesspipe.sh %s"
+export LESSOPEN="|- '$HOME/.local/bin/lesspipe.sh' '%s'"
 export LESS=' -R '
 export LESSCOLORIZER="source-highlight"
 
