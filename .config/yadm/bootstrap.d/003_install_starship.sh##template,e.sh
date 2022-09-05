@@ -8,17 +8,19 @@ echo "Installing starship!"
 
 {% if yadm.os == "Msys" %}
 
-# Download executable to ~/bin
-mkdir -p ~/bin
+
+# Download executable to $HOME/.local/bin
+local_bin="$HOME/.local/bin"
+mkdir -p "$local_bin"
 
 starship_zip_download_url=$(
     curl -sL https://api.github.com/repos/starship/starship/releases/latest |
         jq -r ".assets[].browser_download_url" |
         grep "starship-x86_64-pc-windows-msvc.zip$"
 )
-curl -fsL "$starship_zip_download_url" -o ~/bin/starship.zip &&
-    unzip ~/bin/starship.zip &&
-    /bin/rm ~/bin/starship.zip
+curl -fsL "$starship_zip_download_url" -o "$local_bin/starship.zip" &&
+    unzip "$local_bin/starship.zip" &&
+    rm "$local_bin/starship.zip"
 
 {% else %}
 

@@ -3,16 +3,16 @@
 
 echo "Installing lesspipe.sh!"
 
-cd ~
+cd "$HOME"
 git clone https://github.com/wofr06/lesspipe.git &&
     cd lesspipe
 
 # Build and install
-./configure --prefix=~/.local
+./configure --prefix="$HOME/.local"
 make
 make test
 make install
 
 # Remove build directory
-cd ~
-rm -rf ./lesspipe
+cd "$HOME"
+rm -r ./lesspipe

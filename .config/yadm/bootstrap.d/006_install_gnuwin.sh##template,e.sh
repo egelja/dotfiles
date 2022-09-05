@@ -6,13 +6,14 @@
 
 {% if yadm.os == "Msys" %}
 
+mkdir -p "$HOME/.local"
+cd "$HOME/.local"
+
 __install_from_sourceforge() {
     curl -L $1 -o download.zip &&
         unzip download.zip &&  # unzip from MSys2
-        /bin/rm download.zip
+        rm download.zip
 }
-
-cd ~
 
 echo "Installing DiffUtils"
 __install_from_sourceforge https://sourceforge.net/projects/gnuwin32/files/diffutils/2.8.7-1/diffutils-2.8.7-1-bin.zip/download

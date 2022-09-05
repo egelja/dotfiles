@@ -111,7 +111,7 @@ if ! shopt -oq posix; then
 fi
 
 # Local bin
-export PATH=$HOME/bin:$HOME/.local/bin:$PATH
+export PATH="$HOME/.local/bin:$PATH"
 
 # Set up ssh agent
 eval `keychain --eval --agents ssh id_ed25519`
