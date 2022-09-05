@@ -12,6 +12,9 @@ declare -a MINGW_PACKAGES=(
     "mingw-w64-x86_64-curl"
     "mingw-w64-x86_64-libarchive"
     "unzip"
+    "tree"
+    "mingw-w64-x86_64-source-highlight"
+    "p7zip"
 )
 
 echo "Installing mingw packages:"

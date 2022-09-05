@@ -18,6 +18,11 @@ declare -a PACKAGES=(
     "unzip"
     "diffutils"
     "keychain"
+    "tree"
+    "libsource-highlight-common"
+    "source-highlight"
+    "libarchive-tools"
+    "p7zip"
 )
 
 echo "Installing apt packages:"

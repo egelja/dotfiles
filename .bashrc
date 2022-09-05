@@ -111,10 +111,15 @@ if ! shopt -oq posix; then
 fi
 
 # Local bin
-export PATH=$HOME/bin:$HOME/.local/bin/:$PATH
+export PATH=$HOME/bin:$HOME/.local/bin:$PATH
 
 # Set up ssh agent
 eval `keychain --eval --agents ssh id_ed25519`
+
+# Lesspipe
+export LESSOPEN="|- $HOME/.local/bin/lesspipe.sh %s"
+export LESS=' -R '
+export LESSCOLORIZER="source-highlight"
 
 # tldr stuff
 #complete -W "$(tldr 2>/dev/null --list)" tldr
