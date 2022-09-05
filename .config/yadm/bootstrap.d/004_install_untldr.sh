@@ -14,7 +14,7 @@ patch -i better_tldr_style.patch
 
 # Build and install
 make
-make install PREFIX="$HOME/.local"
+make install PREFIX="~/.local"
 
 # Remove build directory
 cd "$HOME"

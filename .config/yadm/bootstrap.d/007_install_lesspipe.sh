@@ -19,4 +19,4 @@ make install
 
 # Remove build directory
 cd "$HOME"
-rm -r ./lesspipe
+rm -rf ./lesspipe

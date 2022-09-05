@@ -11,7 +11,7 @@ cd "$HOME/.local"
 
 __install_from_sourceforge() {
     curl -L $1 -o download.zip &&
-        unzip download.zip &&  # unzip from MSys2
+        unzip -u download.zip &&  # unzip from MSys2
         rm download.zip
 }
 
