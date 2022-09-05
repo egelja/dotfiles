@@ -33,7 +33,7 @@ declare -a WINGET_PACKAGES=(
 )
 
 echo "Installing winget packages:"
-for pkg in ${MINGW_PACKAGES[@]}; do
+for pkg in ${WINGET_PACKAGES[@]}; do
     echo "- $pkg"
     winget install $pkg
 done
