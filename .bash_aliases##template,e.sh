@@ -147,6 +147,9 @@ apt() {
     ac)
         command sudo apt autoclean $@
         ;;
+    autorm)
+        command sudo apt autoremove $@
+        ;;
     c)
         command sudo apt clean $@
         ;;

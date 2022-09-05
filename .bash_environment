@@ -1,0 +1,41 @@
+# Environment variable definitions
+
+# Local bin
+export PATH="$HOME/.local/bin:$PATH"
+
+# Lesspipe
+export LESSOPEN="|- '$HOME/.local/bin/lesspipe.sh' '%s'"
+export LESS=' -R '
+export LESSCOLORIZER="source-highlight"
+
+# tldr stuff
+#complete -W "$(tldr 2>/dev/null --list)" tldr
+#export TLDR_HEADER='bold'
+#export TLDR_QUOTE='default'
+#export TLDR_DESCRIPTION='green'
+#export TLDR_CODE='red'
+#export TLDR_PARAM='cyan'
+#export TLDR_LANGUAGE='en'
+
+# fix colors
+export LS_COLORS="$LS_COLORS:ow=1;34:tw=1;34:"
+
+# SDKMAN! and Java stuff
+export GRADLE_HOME=~/.sdkman/candidates/gradle/current
+export JAVA_HOME=~/.sdkman/candidates/java/current
+export M2_HOME=~/.sdkman/candidates/maven/current
+export MAVEN_HOME=$M2_HOME
+
+# Starship
+export STARSHIP_CONFIG=~/.config/starship.toml
+eval "$(starship init bash)"
+
+# Symlinks on windows
+if [[ $(uname -o) == "Msys" ]]; then
+    export MSYS="winsymlinks:nativestrict"
+fi
+
+# virtualenvwrapper setup
+#export WORKON_HOME=~/.envs
+#export VIRTUALENVWRAPPER_WORKON_CD=0
+#source "/mingw64/bin/virtualenvwrapper.sh" || source `which virtualenvwrapper_lazy.sh`

@@ -4,8 +4,8 @@
 
 # If not running interactively, don't do anything
 case $- in
-    *i*) ;;
-      *) return;;
+*i*) ;;
+*) return ;;
 esac
 
 # don't put duplicate lines or lines starting with space in the history.
@@ -37,7 +37,7 @@ fi
 
 # set a fancy prompt (non-color, unless we know we "want" color)
 case "$TERM" in
-    xterm-color|*-256color) color_prompt=yes;;
+xterm-color | *-256color) color_prompt=yes ;;
 esac
 
 # uncomment for a colored prompt, if the terminal has the capability; turned
@@ -65,11 +65,11 @@ unset color_prompt force_color_prompt
 
 # If this is an xterm set the title to user@host:dir
 case "$TERM" in
-xterm*|rxvt*)
+xterm* | rxvt*)
     PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
     ;;
-*)
-    ;;
+*) ;;
+
 esac
 
 # enable color support of ls and also add handy aliases
@@ -99,64 +99,31 @@ if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
 
+# Environment variable definitions
+if [ -f ~/.bash_environment ]; then
+    . ~/.bash_environment
+fi
+
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
 # sources /etc/bash.bashrc).
 if ! shopt -oq posix; then
-  if [ -f /usr/share/bash-completion/bash_completion ]; then
-    . /usr/share/bash-completion/bash_completion
-  elif [ -f /etc/bash_completion ]; then
-    . /etc/bash_completion
-  fi
+    if [ -f /usr/share/bash-completion/bash_completion ]; then
+        . /usr/share/bash-completion/bash_completion
+    elif [ -f /etc/bash_completion ]; then
+        . /etc/bash_completion
+    fi
 fi
-
-# Local bin
-export PATH="$HOME/.local/bin:$PATH"
 
 # Set up ssh agent
-eval `keychain --eval --agents ssh id_ed25519`
-
-# Lesspipe
-export LESSOPEN="|- '$HOME/.local/bin/lesspipe.sh' '%s'"
-export LESS=' -R '
-export LESSCOLORIZER="source-highlight"
-
-# tldr stuff
-#complete -W "$(tldr 2>/dev/null --list)" tldr
-#export TLDR_HEADER='bold'
-#export TLDR_QUOTE='default'
-#export TLDR_DESCRIPTION='green'
-#export TLDR_CODE='red'
-#export TLDR_PARAM='cyan'
-#export TLDR_LANGUAGE='en'
-
-# fix colors
-export LS_COLORS="$LS_COLORS:ow=1;34:tw=1;34:"
-
-# SDKMAN! and Java stuff
-export GRADLE_HOME=~/.sdkman/candidates/gradle/current
-export JAVA_HOME=~/.sdkman/candidates/java/current
-export M2_HOME=~/.sdkman/candidates/maven/current
-export MAVEN_HOME=$M2_HOME
-
-# Starship
-eval "$(starship init bash)"
-export STARSHIP_CONFIG=~/.config/starship.toml
-
-# Symlinks on windows
-if [[ $(uname -o) == "Msys" ]]; then
-    export MSYS="winsymlinks:nativestrict"
+if [[ $(uname -o) != "Msys" ]]; then
+    eval $(keychain --eval --agents ssh id_ed25519)
 fi
-
-# virtualenvwrapper
-#export WORKON_HOME=~/.envs
-#export VIRTUALENVWRAPPER_WORKON_CD=0
-#source "/mingw64/bin/virtualenvwrapper.sh" || source `which virtualenvwrapper_lazy.sh`
 
 # NVM Init
 export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"                   # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="$HOME/.sdkman"
