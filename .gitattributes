@@ -10,16 +10,16 @@
 
 # Documents
 *.bibtex   text diff=bibtex
-*.doc      diff=astextplain
-*.DOC      diff=astextplain
-*.docx     diff=astextplain
-*.DOCX     diff=astextplain
+*.doc      diff=lesspipe
+*.DOC      diff=lesspipe
+*.docx     diff=lesspipe
+*.DOCX     diff=lesspipe
 *.dot      diff=astextplain
 *.DOT      diff=astextplain
-*.pdf      diff=astextplain
-*.PDF      diff=astextplain
-*.rtf      diff=astextplain
-*.RTF      diff=astextplain
+*.pdf      diff=lesspipe
+*.PDF      diff=lesspipe
+*.rtf      diff=lesspipe
+*.RTF      diff=lesspipe
 *.md       text
 *.tex      text diff=tex
 *.adoc     text
@@ -31,11 +31,18 @@
 *.txt      text
 *.sql      text
 
+*.odt      diff=lesspipe
+*.xls      diff=lesspipe
+*.xlsx     diff=lesspipe
+*.ppt      diff=lesspipe
+*.pptx     diff=lesspipe
+*.epub     diff=lesspipe
+
 # Graphics
-*.png      binary
-*.jpg      binary
-*.jpeg     binary
-*.gif      binary
+*.png      binary diff=lesspipe
+*.jpg      binary diff=lesspipe
+*.jpeg     binary diff=lesspipe
+*.gif      binary diff=lesspipe
 *.tif      binary
 *.tiff     binary
 *.ico      binary
@@ -63,11 +70,13 @@
 *.yml      text
 
 # Archives
-*.7z       binary
-*.gz       binary
-*.tar      binary
-*.tgz      binary
-*.zip      binary
+*.7z       binary diff=lesspipe
+*.gz       binary diff=lesspipe
+*.ja{r,}   binary diff=lesspipe
+*.rar      binary diff=lesspipe
+*.tar      binary diff=lesspipe
+*.tgz      binary diff=lesspipe
+*.zip      binary diff=lesspipe
 
 # Text files where line endings should be preserved
 *.patch    -text

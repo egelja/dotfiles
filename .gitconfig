@@ -22,3 +22,7 @@
 	format = ssh
 [gpg "ssh"]
 	allowedSignersFile = ~/.config/git/allowed_signers
+[diff "lesspipe"]
+	textconv = LESSQUIET=1 lesspipe.sh
+	binary = true
+	cachetextconv = true
