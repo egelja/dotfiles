@@ -2,10 +2,20 @@ using namespace System.Management.Automation
 using namespace System.Management.Automation.Language
 
 # Set up stuff
-Import-Module PSReadLine
+Import-Module posh-git
+Import-Module posh-sshell
+
+# Starship
 Invoke-Expression (&starship init powershell)
 
-# CONFIGS
+# The fuck
+# $env:PYTHONIOENCODING="utf-8"
+# iex "$(thefuck --alias)"
+
+#
+# PSReadLine
+#
+Import-Module PSReadLine
 Set-PSReadLineOption -EditMode Emacs
 
 # Turn on autocompletion and set commands
@@ -134,10 +144,3 @@ Set-PSReadLineKeyHandler -Key F7 `
 
 # Exit on CTRL + D
 Set-PSReadlineKeyHandler -Key ctrl+d -Function DeleteCharOrExit
-
-# Source bat autocomplete
-# . "$(Split-Path $PROFILE)\_bat.ps1"
-
-# The fuck
-# $env:PYTHONIOENCODING="utf-8"
-# iex "$(thefuck --alias)"
