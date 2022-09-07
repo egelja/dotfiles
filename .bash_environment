@@ -35,6 +35,9 @@ if [[ $(uname -o) == "Msys" ]]; then
     export MSYS="winsymlinks:nativestrict"
 fi
 
+# Python
+export PYTHONIOENCODING="utf-8"
+
 # virtualenvwrapper setup
 #export WORKON_HOME=~/.envs
 #export VIRTUALENVWRAPPER_WORKON_CD=0

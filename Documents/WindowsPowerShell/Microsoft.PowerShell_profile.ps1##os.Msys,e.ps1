@@ -5,11 +5,8 @@ using namespace System.Management.Automation.Language
 Import-Module posh-git
 Import-Module posh-sshell
 
-# Starship
+# Self-setup programs
 Invoke-Expression (&starship init powershell)
-
-# The fuck
-# $env:PYTHONIOENCODING="utf-8"
 # iex "$(thefuck --alias)"
 
 #
