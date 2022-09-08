@@ -3,7 +3,7 @@ using namespace System.Management.Automation.Language
 
 # Set up stuff
 Import-Module posh-git
-Import-Module posh-sshell
+# Import-Module posh-sshell  # no longer maintained
 
 # Self-setup programs
 Invoke-Expression (&starship init powershell)
