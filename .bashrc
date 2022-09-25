@@ -117,7 +117,13 @@ fi
 
 # Set up ssh agent
 if [[ $(uname -o) != "Msys" ]]; then
-    eval $(keychain --eval --agents ssh id_ed25519)
+    # Taken from https://unix.stackexchange.com/a/217223
+    if [[ ! -S ~/.ssh/ssh_auth_sock ]]; then
+        eval `ssh-agent`
+        ln -sf "$SSH_AUTH_SOCK" "$HOME/.ssh/ssh_auth_sock"
+    fi
+    export SSH_AUTH_SOCK="$HOME/.ssh/ssh_auth_sock"
+    ssh-add -l > /dev/null || ssh-add
 fi
 
 # NVM Init

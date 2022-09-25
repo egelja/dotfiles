@@ -17,7 +17,6 @@ declare -a PACKAGES=(
     "zip"
     "unzip"
     "diffutils"
-    "keychain"
     "tree"
     "libsource-highlight-common"
     "source-highlight"
