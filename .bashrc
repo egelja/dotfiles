@@ -117,13 +117,32 @@ fi
 
 # Set up ssh agent
 if [[ $(uname -o) != "Msys" ]]; then
-    # Taken from https://unix.stackexchange.com/a/217223
-    if [[ ! -S ~/.ssh/ssh_auth_sock ]]; then
-        eval `ssh-agent`
-        ln -sf "$SSH_AUTH_SOCK" "$HOME/.ssh/ssh_auth_sock"
+    # Taken from https://stackoverflow.com/a/48509425
+    # Also see https://unix.stackexchange.com/a/217223
+
+    # Ensure agent is running
+    ssh-add -l &>/dev/null
+    if [ "$?" == 2 ]; then
+	# Could not open a connection to your authentication agent.
+	# Load stored agent connection info.
+	test -r ~/.ssh/agent && \
+            eval "$(< ~/.ssh/agent)" >/dev/null
+
+	ssh-add -l &>/dev/null
+	if [ "$?" == 2 ]; then
+            # Start agent and store agent connection info.
+            (umask 066; ssh-agent > ~/.ssh/agent)
+            eval "$(< ~/.ssh/agent)" >/dev/null
+	fi
     fi
-    export SSH_AUTH_SOCK="$HOME/.ssh/ssh_auth_sock"
-    ssh-add -l > /dev/null || ssh-add
+
+    # Load identities
+    ssh-add -l &>/dev/null
+    if [ "$?" == 1 ]; then
+	# The agent has no identities.
+	# Time to add one.
+	ssh-add
+    fi
 fi
 
 # NVM Init
