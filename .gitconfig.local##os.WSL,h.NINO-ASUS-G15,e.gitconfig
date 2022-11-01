@@ -2,6 +2,5 @@
 [user]
 	name = Nino Maruszewski
 	email = nino.maruszewski@gmail.com
-	signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMIoytQfysRFn5wxCz90oNesCrlpDqJCX9hJsh7XTg03 nino.maruszewski@gmail.com
 [gpg]
 	program = "/mnt/c/msys64/usr/bin/gpg.exe"
