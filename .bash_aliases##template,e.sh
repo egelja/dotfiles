@@ -12,6 +12,18 @@ alias cleanup="/bin/rm -f *# *~"
 # Directories
 alias home="cd ~"
 alias root="cd /"
+alias ..="cd .."
+alias ...="cd ../.."
+alias ....="cd ../../.."
+alias .....="cd ../../../.."
+alias ......="cd ../../../../.."
+alias .......="cd ../../../../../.."
+alias ........="cd ../../../../../../.."
+alias .........="cd ../../../../../../../.."
+alias ..........="cd ../../../../../../../../.."
+alias ...........="cd ../../../../../../../../../.."
+alias ............="cd ../../../../../../../../../../.."
+alias .............="cd ../../../../../../../../../../../.."
 
 # ls/tree
 alias ll="ls -lh"
@@ -20,6 +32,16 @@ alias trea="tree -a"
 
 # Condor
 alias cq="condor_q"
+
+# CPU temp
+cputemp() {
+    paste <(cat /sys/class/thermal/thermal_zone*/type) <(cat /sys/class/thermal/thermal_zone*/temp) | column -s $'\t' -t | sed 's/\(.\)..$/.\1°C/'
+}
+
+# Poetry list outdated packages
+poetry-outdated() {
+    poetry show --outdated | grep --file=<(poetry show --tree | grep '^\w' | cut -d' ' -f1)
+}
 
 # color aliases (may already exist, but ¯\_(ツ)_/¯)
 if [ -x /usr/bin/dircolors ]; then
@@ -32,28 +54,6 @@ if [ -x /usr/bin/dircolors ]; then
     alias fgrep='fgrep --color=auto'
     alias egrep='egrep --color=auto'
 fi
-
-# IPython
-if [[ $(uname -s) =~ "MINGW" ]]; then
-    # Windows
-    alias ipy=ipython.exe
-else
-    alias ipy=ipython
-fi
-
-# CPU temp
-cputemp() {
-    paste <(cat /sys/class/thermal/thermal_zone*/type) <(cat /sys/class/thermal/thermal_zone*/temp) | column -s $'\t' -t | sed 's/\(.\)..$/.\1°C/'
-}
-
-# Poetry list outdated packages
-poetry-outdated() {
-    poetry show --outdated | grep --file=<(poetry show --tree | grep '^\w' | cut -d' ' -f1)
-}
-
-#
-# git
-#
 
 {% if yadm.os == "WSL" %}
 
@@ -82,12 +82,23 @@ __is-windows-dir() {
 git() {
     # Determine git executable for speedup in WSL
     if __is-windows-dir; then
-        git_exe="git.exe"
+        exe="git.exe"
     else
-        git_exe="/usr/bin/git"
+        exe="git"
     fi
 
-    command $git_exe $@
+    command $exe $@
+}
+
+ipy() {
+    # Like the git but for ipython
+    if __is-windows-dir; then
+        exe="ipython.exe"
+    else
+        exe="ipython"
+    fi
+
+    command $exe $@
 }
 
 #
@@ -130,33 +141,3 @@ apt() {
         ;;
     esac
 }
-
-
-#
-# CD
-#
-# https://mhoffman.github.io/2015/05/21/how-to-navigate-directories-with-the-shell.html
-function cd() {
-    if [ "$#" = "0" ]
-    then
-        pushd ${HOME} > /dev/null
-    elif [ -f "${1}" ]
-    then
-        ${EDITOR:-nano} ${1}
-    else
-        pushd "$1" > /dev/null
-    fi
-}
-
-function bd() {
-    if [ "$#" = "0" ]
-    then
-        popd > /dev/null
-    else
-        for i in $(seq ${1})
-        do
-            popd > /dev/null
-        done
-    fi
-}
-
