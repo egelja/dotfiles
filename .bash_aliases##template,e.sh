@@ -18,11 +18,6 @@ alias ll="ls -lh"
 alias la="ls -Alh"
 alias trea="tree -a"
 
-# safe rm, mv, and cp
-alias rm="rm -i"
-alias mv="mv -i"
-alias cp="cp -i"
-
 # color aliases (may already exist, but ¯\_(ツ)_/¯)
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
@@ -89,45 +84,7 @@ git() {
         git_exe="/usr/bin/git"
     fi
 
-    cmd=$1
-    shift
-
-    case $cmd in
-    a)
-        command $git_exe add $@
-        ;;
-    aa)
-        command $git_exe add -a $@
-        ;;
-    c)
-        command $git_exe commit $@
-        ;;
-    ca)
-        command $git_exe commit -a $@
-        ;;
-    cam)
-        command $git_exe commit -a -m $@
-        ;;
-    cm)
-        command $git_exe commit -m $@
-        ;;
-    p)
-        command $git_exe push $@
-        ;;
-    pl)
-        command $git_exe pull $@
-        ;;
-    s)
-        command $git_exe status $@
-        ;;
-    unadd)
-        shift
-        command $git_exe restore --staged $@
-        ;;
-    *)
-        command $git_exe $cmd $@
-        ;;
-    esac
+    command $git_exe $@
 }
 
 #
