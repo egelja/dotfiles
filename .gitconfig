@@ -2,8 +2,10 @@
 [alias]
 	a = add
 	aa = add -A
+	br = branch
 	c = commit
 	ca = commit -a
+	co = checkout
 	d = diff
 	ds = diff --staged
 	graph = log --oneline --decorate --graph --all
