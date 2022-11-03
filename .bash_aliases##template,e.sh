@@ -18,6 +18,9 @@ alias ll="ls -lh"
 alias la="ls -Alh"
 alias trea="tree -a"
 
+# Condor
+alias cq="condor_q"
+
 # color aliases (may already exist, but ¯\_(ツ)_/¯)
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
