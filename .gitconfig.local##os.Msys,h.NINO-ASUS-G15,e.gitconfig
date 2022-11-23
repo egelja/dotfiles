@@ -1,4 +1,9 @@
 # -*- mode: conf-unix -*-
+[core]
+	sshCommand = C:/Windows/System32/OpenSSH/ssh.exe
 [user]
 	name = Nino Maruszewski
 	email = nino.maruszewski@gmail.com
+	signingkey = C:/Users/Nino Maruszewski/.ssh/id_ed25519
+[gpg "ssh"]
+	program = C:/Windows/System32/OpenSSH/ssh-keygen.exe
