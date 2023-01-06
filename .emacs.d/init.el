@@ -41,20 +41,20 @@
 ;; ;; Hack for using Daemon
 ;; ;; https://github.com/Mstrodl/elcord/issues/17#issuecomment-571383324
 ;; (defun elcord--disable-elcord-if-no-frames (f)
-;;   (declare (ignore f)) 
-;;   (when (let ((frames (delete f (visible-frame-list)))) 
-;; 	  (or (null frames) 
-;; 	      (and (null (cdr frames)) 
-;; 		   (eq (car frames) terminal-frame)))) 
-;;     (elcord-mode -1) 
+;;   (declare (ignore f))
+;;   (when (let ((frames (delete f (visible-frame-list))))
+;; 	  (or (null frames)
+;; 	      (and (null (cdr frames))
+;; 		   (eq (car frames) terminal-frame))))
+;;     (elcord-mode -1)
 ;;     (add-hook 'after-make-frame-functions 'elcord--enable-on-frame-created)))
 
-;; (defun elcord--enable-on-frame-created (f) 
-;;   (declare (ignore f)) 
+;; (defun elcord--enable-on-frame-created (f)
+;;   (declare (ignore f))
 ;;   (elcord-mode +1))
 
-;; (defun my/elcord-mode-hook () 
-;;   (if elcord-mode (add-hook 'delete-frame-functions 'elcord--disable-elcord-if-no-frames) 
+;; (defun my/elcord-mode-hook ()
+;;   (if elcord-mode (add-hook 'delete-frame-functions 'elcord--disable-elcord-if-no-frames)
 ;;     (remove-hook 'delete-frame-functions 'elcord--disable-elcord-if-no-frames)))
 
 ;; (add-hook 'elcord-mode-hook 'my/elcord-mode-hook)
@@ -65,8 +65,7 @@
 ;;;
 ;;; KEYBINDINGS
 ;;;
-(global-set-key (kbd "C-M-s")
-		'scratch-pop)
+(global-set-key (kbd "C-M-s") 'scratch-pop)
 
 ;;;
 ;;; THEME SETTINGS
@@ -78,14 +77,15 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(cursor-type t)
- '(custom-enabled-themes '(dracula))
- '(custom-safe-themes
-   '("1436985fac77baf06193993d88fa7d6b358ad7d600c1e52d12e64a2f07f07176" default))
- '(elcord-editor-icon nil)
- '(elcord-use-major-mode-as-main-icon t)
- '(package-selected-packages
-   '(scratch-pop yaml-mode ahk-mode restart-emacs julia-mode ssh-config-mode emojify logview markdown-mode typescript-mode powershell gcode-mode elisp-format spacemacs-theme dracula-theme)))
+ '(cursor-type t) 
+ '(custom-enabled-themes '(dracula)) 
+ '(custom-safe-themes '("1436985fac77baf06193993d88fa7d6b358ad7d600c1e52d12e64a2f07f07176" default)) 
+ '(elcord-editor-icon nil) 
+ '(elcord-use-major-mode-as-main-icon t) 
+ '(package-selected-packages '(scratch-pop yaml-mode ahk-mode restart-emacs julia-mode
+					   ssh-config-mode emojify logview markdown-mode
+					   typescript-mode powershell gcode-mode elisp-format
+					   spacemacs-theme dracula-theme)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
