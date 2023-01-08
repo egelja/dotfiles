@@ -119,6 +119,12 @@
 (use-package all-the-icons :if (display-graphic-p))
 
 (use-package
+  ivy
+  :config
+  (ivy-mode)
+  :custom (ivy-use-virtual-buffers t) (ivy-count-format "(%d/%d) "))
+
+(use-package
  counsel
  :init
  (if (executable-find "rg")
@@ -126,10 +132,9 @@
      (setq
       counsel-grep-base-command (append counsel-rg-base-command '("%s")))
    (warn
-    "\nWARNING: Could not find the ripgrep executable. It "
-    "is recommended you install ripgrep."))
- :config (ivy-mode 1) (counsel-mode 1)
- :custom (ivy-use-virtual-buffers t) (ivy-count-format "(%d/%d) ")
+    "\nWARNING: Could not find the ripgrep executable. It is recommended you install ripgrep."))
+ :config
+ (counsel-mode)
  :bind
  (("C-s" . swiper-isearch)))
 
@@ -169,7 +174,9 @@
  highlight-indent-guides
  :hook (prog-mode . highlight-indent-guides-mode)
  :custom
- (highlight-indent-guides-method 'bitmap)
+ (highlight-indent-guides-method (if (display-graphic-p)
+                                     'bitmap
+                                   'character))
  (highlight-indent-guides-responsive 'stack))
 
 
