@@ -1,3 +1,20 @@
+;; Profile startup time
+;; https://blog.d46.us/advanced-emacs-startup/
+(add-hook 'emacs-startup-hook
+          (lambda ()
+            (message "Emacs ready in %s with %d garbage collections."
+                     (format "%.2f seconds"
+                             (float-time
+                              (time-subtract after-init-time before-init-time)))
+                     gcs-done)))
+
+;; Raise GC threshold
+;; https://github.com/doomemacs/doomemacs/issues/310#issuecomment-354424413
+(defvar last-file-name-handler-alist file-name-handler-alist)
+(setq gc-cons-threshold 402653184
+      gc-cons-percentage 0.6
+      file-name-handler-alist nil)
+
 ;;
 ;; Emacs builtins config
 ;;
@@ -7,6 +24,9 @@
 
 ;; Window setup history
 (winner-mode 1)
+
+;; Show battery percentage
+(display-battery-mode 1)
 
 ;; Deleting selections by typing over them
 (delete-selection-mode 1)
@@ -41,7 +61,7 @@
          (buffer-substring-no-properties ;; Initialize.
           (point-min) (point-max))))
     ;; Whitespace-fill the window.
-    (zone-fill-out-screen (window-width) (window-height))
+   (zone-fill-out-screen (window-width) (window-height))
     (random t)
     (goto-char (point-min))
     (while (not (input-pending-p))
@@ -112,11 +132,16 @@
 
 
 ;; Packages
-(use-package ace-window :bind ("M-o" . ace-window))
+(use-package ace-window
+  :bind ("M-o" . ace-window)
+  :config (ace-window-display-mode 1))
 
 (use-package ahk-mode :mode "\\.ahk\\'")
 
 (use-package all-the-icons :if (display-graphic-p))
+
+(use-package all-the-icons-dired
+  :hook (dired-mode . all-the-icons-dired-mode))
 
 (use-package
   ivy
@@ -124,13 +149,18 @@
   (ivy-mode)
   :custom (ivy-use-virtual-buffers t) (ivy-count-format "(%d/%d) "))
 
+;; (use-package centaur-tabs
+;;   :demand
+;;   :config
+;;   (centaur-tabs-mode t)
+;;   :bind
+;;   ("<backtab>" . centaur-tabs-backward)
+;;   ("C-<tab>" . centaur-tabs-forward))
+
 (use-package
  counsel
  :init
- (if (executable-find "rg")
-     ;; use ripgrep instead of grep because it's way faster
-     (setq
-      counsel-grep-base-command (append counsel-rg-base-command '("%s")))
+ (unless (executable-find "rg")
    (warn
     "\nWARNING: Could not find the ripgrep executable. It is recommended you install ripgrep."))
  :config
@@ -171,6 +201,20 @@
  :hook (gcode-mode . eldoc-mode))
 
 (use-package
+  helpful
+  :bind
+  (("C-h f" . helpful-callable)
+   ("C-h v" . helpful-variable)
+   ("C-h k" . helpful-key)
+   ("C-c C-d" . helpful-at-point)
+   ("C-h F" . helpful-function)
+   ("C-h C" . helpful-command))
+  :custom
+  (counsel-describe-function-function #'helpful-callable)
+  (counsel-describe-variable-function #'helpful-variable))
+    
+
+(use-package
  highlight-indent-guides
  :hook (prog-mode . highlight-indent-guides-mode)
  :custom
@@ -209,6 +253,9 @@
  ("C-x l" . pulsar-pulse-line)
  ("C-X L" . pulsar-highlight-dwim))
 
+(use-package rainbow-delimiters
+  :hook (prog-mode . rainbow-delimiters-mode))
+
 (use-package scratch-pop :bind ("C-M-s" . scratch-pop))
 
 (use-package ssh-config-mode :defer t)
@@ -219,6 +266,16 @@
 ;; https://github.com/purcell/whitespace-cleanup-mode
 
 (use-package yaml-mode :mode "\\.ya?ml\\'")
+
+;;
+;; Custom functions
+;;
+(defun find-init-file ()
+  "Edit init.el"
+  (interactive)
+  (find-file "~/.emacs.d/init.el"))
+
+(global-set-key (kbd "C-`") 'find-init-file)
 
 ;;;
 ;;; ELCORD
@@ -276,3 +333,11 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+
+;; Restore GC threshhold
+;; https://github.com/doomemacs/doomemacs/issues/310#issuecomment-354424413
+(add-hook 'emacs-startup-hook
+          (lambda ()
+            (setq gc-cons-threshold 16777216
+                  gc-cons-percentage 0.1
+                  file-name-handler-alist last-file-name-handler-alist)))
