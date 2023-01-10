@@ -159,7 +159,20 @@ export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || pr
 export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
 
+
 # Local bash environment
 if [ -f ~/.bashrc.local ]; then
     . ~/.bashrc.local
+fi
+
+##
+## TMUX auto attach
+##
+if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then      # if this is an SSH session
+    if which tmux >/dev/null 2>&1; then                 # check if tmux is installed
+        if [[ -z "$TMUX" ]]; then                       # do not allow "tmux in tmux"
+            # https://unix.stackexchange.com/questions/552614/run-tmux-on-ssh-login
+            exec tmux new-session -A -s main
+        fi
+    fi
 fi
