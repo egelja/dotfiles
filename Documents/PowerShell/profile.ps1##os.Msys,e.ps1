@@ -2,6 +2,7 @@ Set-Alias nano C:\msys64\usr\bin\nano.exe
 
 function tree { tree.com /f @args }
 function la { Get-ChildItem -Force @args }
+function which { (Get-Command @args).Source }
 
 Set-Alias c Clear-Host
 Set-Alias ipy "ipython.exe"
