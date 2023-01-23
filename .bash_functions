@@ -121,3 +121,10 @@ mktar() {
 
     command tar -cv$compress_arg -f "$dir_name.tar.$ext" $dir_name
 }
+
+#
+# SSH-Agent Management
+#
+killall-ssh-agents() {
+    ps aux | grep "$USER.*ssh-agent" | awk '{ print $2 }' | xargs kill
+}
