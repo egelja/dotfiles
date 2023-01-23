@@ -2,3 +2,4 @@
 [user]
 	name = Nikola Maruszewski
 	email = nikolamaruszewski2026@u.northwestern.edu
+        signingKey = ~/.ssh/id_ed25519.pub
