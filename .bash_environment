@@ -9,7 +9,9 @@ fi
 # Lesspipe
 export LESSOPEN="|- '$HOME/.local/bin/lesspipe.sh' '%s'"
 export LESS=' -R '
-export LESSCOLORIZER="source-highlight"
+
+which bat > /dev/null 2>&1 && export LESSCOLORIZER="bat --style=plain"
+which batcat > /dev/null 2>&1 && export LESSCOLORIZER="batcat --style=plain"
 
 # tldr stuff
 #complete -W "$(tldr 2>/dev/null --list)" tldr
