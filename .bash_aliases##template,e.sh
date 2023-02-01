@@ -38,6 +38,7 @@ alias .............="cd ../../../../../../../../../../../.."
 alias ll="ls -lh"
 alias la="ls -Alh"
 alias trea="tree -a"
+alias sl="sl -ad5w"
 
 # Condor
 alias cq="condor_q"
@@ -63,6 +64,10 @@ if [ -x /usr/bin/dircolors ]; then
     alias fgrep='fgrep --color=auto'
     alias egrep='egrep --color=auto'
 fi
+
+# Command replacements
+which bat > /dev/null 2>&1 && alias cat="bat"
+which rg  > /dev/null 2>&1 && alias grep="rg"
 
 {% if yadm.os == "WSL" %}
 
