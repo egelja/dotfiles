@@ -39,6 +39,8 @@ fi
 export PYTHONIOENCODING="utf-8"
 
 # virtualenvwrapper setup
-#export WORKON_HOME=~/.envs
-#export VIRTUALENVWRAPPER_WORKON_CD=0
-#source "/mingw64/bin/virtualenvwrapper.sh" || source `which virtualenvwrapper_lazy.sh`
+if which virtualenvwrapper.sh > /dev/null 2>&1; then
+    export WORKON_HOME="$HOME/.virtualenvs"
+    export VIRTUALENVWRAPPER_WORKON_CD=0nn
+    . `which virtualenvwrapper.sh`
+fi
