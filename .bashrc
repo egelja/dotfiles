@@ -168,11 +168,12 @@ fi
 ##
 ## TMUX auto attach
 ##
-if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then      # if this is an SSH session
-    if which tmux >/dev/null 2>&1; then                 # check if tmux is installed
-        if [[ -z "$TMUX" ]]; then                       # do not allow "tmux in tmux"
-            # https://unix.stackexchange.com/questions/552614/run-tmux-on-ssh-login
-            exec tmux new-session -A -s main
-        fi
-    fi
-fi
+#if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then      # if this is an SSH session
+#    if which tmux >/dev/null 2>&1; then                 # check if tmux is installed
+#        if [[ -z "$TMUX" ]]; then                       # do not allow "tmux in tmux"
+#            # https://unix.stackexchange.com/questions/552614/run-tmux-on-ssh-login
+#            exec tmux new-session -A -s main
+#        fi
+#    fi
+#fi
+alias tm="tmux new-session -A -s main"
