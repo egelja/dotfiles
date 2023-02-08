@@ -1,12 +1,17 @@
 # Environment variable definitions
 
 # Local bin
-export PATH="$HOME/.local/bin:$PATH"
+if ! [[ "$PATH" =~ "$HOME/.local/bin" ]]
+then
+    export PATH="$HOME/.local/bin:$PATH"
+fi
 
 # Lesspipe
 export LESSOPEN="|- '$HOME/.local/bin/lesspipe.sh' '%s'"
 export LESS=' -R '
-export LESSCOLORIZER="source-highlight"
+
+which bat > /dev/null 2>&1 && export LESSCOLORIZER="bat --style=plain"
+which batcat > /dev/null 2>&1 && export LESSCOLORIZER="batcat --style=plain"
 
 # tldr stuff
 #complete -W "$(tldr 2>/dev/null --list)" tldr
@@ -39,6 +44,8 @@ fi
 export PYTHONIOENCODING="utf-8"
 
 # virtualenvwrapper setup
-#export WORKON_HOME=~/.envs
-#export VIRTUALENVWRAPPER_WORKON_CD=0
-#source "/mingw64/bin/virtualenvwrapper.sh" || source `which virtualenvwrapper_lazy.sh`
+if which virtualenvwrapper.sh > /dev/null 2>&1; then
+    export WORKON_HOME="$HOME/.virtualenvs"
+    export VIRTUALENVWRAPPER_WORKON_CD=0nn
+    . `which virtualenvwrapper.sh`
+fi

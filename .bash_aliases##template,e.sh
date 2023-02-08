@@ -38,6 +38,7 @@ alias .............="cd ../../../../../../../../../../../.."
 alias ll="ls -lh"
 alias la="ls -Alh"
 alias trea="tree -a"
+alias sl="sl -ad5w"
 
 # Condor
 alias cq="condor_q"
@@ -62,6 +63,15 @@ if [ -x /usr/bin/dircolors ]; then
     alias grep='grep --color=auto'
     alias fgrep='fgrep --color=auto'
     alias egrep='egrep --color=auto'
+fi
+
+# Command replacements
+which bat > /dev/null 2>&1 && alias cat="bat"
+which rg  > /dev/null 2>&1 && alias grep="rg"
+
+if which batcat > /dev/null 2>&1; then # bat named batcat on ubuntu
+    alias bat=batcat
+    alias cat=batcat
 fi
 
 {% if yadm.os == "WSL" %}

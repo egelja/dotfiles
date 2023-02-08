@@ -1,94 +1,50 @@
-;; Profile startup time
-;; https://blog.d46.us/advanced-emacs-startup/
-(add-hook 'emacs-startup-hook
-          (lambda ()
-            (message "Emacs ready in %s with %d garbage collections."
-                     (format "%.2f seconds"
-                             (float-time
-                              (time-subtract after-init-time before-init-time)))
-                     gcs-done)))
+;;; init.el --- Emacs initialization file            -*- lexical-binding: t; -*-
 
-;; Raise GC threshold
-;; https://github.com/doomemacs/doomemacs/issues/310#issuecomment-354424413
-(defvar last-file-name-handler-alist file-name-handler-alist)
-(setq gc-cons-threshold 402653184
-      gc-cons-percentage 0.6
-      file-name-handler-alist nil)
+;; Copyright (C) 2023  Nino Maruszewski
 
-;;
-;; Emacs builtins config
-;;
+;; Author:  <Nino Maruszewski@NINO-ASUS-G15>
+;; Keywords: c, convenience
 
-;; Trailing newline
-(setq require-final-newline t)
+;; This program is free software; you can redistribute it and/or modify
+;; it under the terms of the GNU General Public License as published by
+;; the Free Software Foundation, either version 3 of the License, or
+;; (at your option) any later version.
 
-;; Window setup history
-(winner-mode 1)
+;; This program is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; GNU General Public License for more details.
 
-;; Show battery percentage
-(display-battery-mode 1)
+;; You should have received a copy of the GNU General Public License
+;; along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-;; Deleting selections by typing over them
-(delete-selection-mode 1)
+;;; Commentary:
 
-;; URLs are files
-(url-handler-mode 1)
+;; 
 
-;; Space indents
-(setq-default indent-tabs-mode nil)
+;;; Code:
 
-;; Yeet bars
-(tool-bar-mode -1)
-(scroll-bar-mode -1) ; TODO find a better scrollbar
+(add-to-list 'load-path
+             (expand-file-name (concat user-emacs-directory "site-lisp/")))
 
-;; Configure autosaves
-(setq
- backup-directory-alist
- '(("." . "~/.emacs.d/backup")) ; Autosave in one place
- backup-by-copying t ; Backup by copying - slower, but preserves links
- version-control t ; Use version numbers on backups,
- delete-old-versions t ; Clean up the backups
- kept-new-versions 5 ; keep some new versions
- kept-old-versions 2) ; and some old ones, too
+;; Utility function for checking if we are on windows
+(defun is-windows-p ()
+  (eq system-type 'windows-nt))
 
-;; Zone mode
-;; https://www.emacswiki.org/emacs/ZoneMode
-(require 'zone)
+;; TODO:
+;;   diff-hl-mode
+;;   scroll bar?
+;;   magit forges
+;;   eglot-format on save
+;;   eglot start hook/keybinding
+;;   Continue comments on indent
+;;   C++ doxygen comments
+;;   org roam
+;;   hide-ifdef-mode: need to run `hide-ifdefs' every so often
+;;       https://www.emacswiki.org/emacs/HideIfDef
+;;       https://emacs.stackexchange.com/questions/31631/gray-out-preprocessor-conditionals
+;;   PDF-tools
 
-(defun zone-pgm-md5 ()
-  "MD5 the buffer, then recursively checksum each hash."
-  (let ((prev-md5
-         (buffer-substring-no-properties ;; Initialize.
-          (point-min) (point-max))))
-    ;; Whitespace-fill the window.
-   (zone-fill-out-screen (window-width) (window-height))
-    (random t)
-    (goto-char (point-min))
-    (while (not (input-pending-p))
-      (when (eobp)
-        (goto-char (point-min)))
-      (while (not (eobp))
-        (delete-region (point) (line-end-position))
-        (let ((next-md5 (md5 prev-md5)))
-          (insert next-md5)
-          (setq prev-md5 next-md5))
-        (forward-line 1)
-        (zone-park/sit-for (point-min) 0.1)))))
-
-(eval-after-load "zone"
-  '(unless (memq 'zone-pgm-md5 (append zone-programs nil))
-     (setq zone-programs (vconcat zone-programs [zone-pgm-md5]))))
-
-(defun zone-choose (pgm)
-  "Choose a PGM to run for `zone'."
-  (interactive (list
-                (completing-read
-                 "Program: "
-                 (mapcar 'symbol-name zone-programs))))
-  (let ((zone-programs (list (intern pgm))))
-    (zone)))
-
-(zone-when-idle 120)
 
 ;;;
 ;;; PACKAGE LOADING
@@ -114,230 +70,36 @@
 ;; Install use-package
 (straight-use-package 'use-package)
 
-;; Config straight.el
+;; Configure straight.el
 (use-package
- straight
- :custom
- (straight-use-package-by-default t)
- (straight-vc-git-default-protocol 'https))
+  straight
+  :custom
+  (straight-use-package-by-default t)
+  (straight-vc-git-default-protocol 'https))
 
-;; Preloads
-(use-package
- shrink-path
- :straight
- (:host
-  gitlab
-  :repo "bennya/shrink-path.el"
-  :local-repo "shrink-path"))
-
+;; Sub-file loading
+(use-package init-loader
+  :custom
+  (init-loader-directory
+   (expand-file-name (concat user-emacs-directory "init.d/")))
+  :config
+  (init-loader-load))
 
 ;; Packages
-(use-package ace-window
-  :bind ("M-o" . ace-window)
-  :config (ace-window-display-mode 1))
 
-(use-package ahk-mode :mode "\\.ahk\\'")
-
-(use-package all-the-icons :if (display-graphic-p))
-
-(use-package all-the-icons-dired
-  :hook (dired-mode . all-the-icons-dired-mode))
-
-(use-package
-  ivy
-  :config
-  (ivy-mode)
-  :custom (ivy-use-virtual-buffers t) (ivy-count-format "(%d/%d) "))
-
-;; (use-package centaur-tabs
-;;   :demand
+;; (use-package apheleia
 ;;   :config
-;;   (centaur-tabs-mode t)
-;;   :bind
-;;   ("<backtab>" . centaur-tabs-backward)
-;;   ("C-<tab>" . centaur-tabs-forward))
-
-(use-package
- counsel
- :init
- (unless (executable-find "rg")
-   (warn
-    "\nWARNING: Could not find the ripgrep executable. It is recommended you install ripgrep."))
- :config
- (counsel-mode)
- :bind
- (("C-s" . swiper-isearch)))
-
-(use-package ivy-prescient
-  :config
-  (ivy-prescient-mode t))
-
-(use-package doom-modeline :config (doom-modeline-mode 1))
-
-(use-package
- dimmer
- :custom
- (dimmer-fraction 0.3)
- (dimmer-buffer-exclusion-regexps '("^ \\*Minibuf-[0-9]+\\*$"
-                                    "^ \\*Echo.*\\*$"
-                                    "^ \\*Completions\\*$"
-                                    "^ \\*Backtrace\\*$"))
- :config (dimmer-mode t))
-
-(use-package dracula-theme)
-
-(use-package elcord)
-
-(use-package
- elisp-autofmt
- :commands (elisp-autofmt-mode elisp-autofmt-buffer)
- :hook (emacs-lisp-mode . elisp-autofmt-mode))
-
-(use-package emojify :hook (after-init . global-emojify-mode))
-
-(use-package
- gcode-mode
- :mode "\\.gcode\\'"
- :hook (gcode-mode . eldoc-mode))
-
-(use-package
-  helpful
-  :bind
-  (("C-h f" . helpful-callable)
-   ("C-h v" . helpful-variable)
-   ("C-h k" . helpful-key)
-   ("C-c C-d" . helpful-at-point)
-   ("C-h F" . helpful-function)
-   ("C-h C" . helpful-command))
-  :custom
-  (counsel-describe-function-function #'helpful-callable)
-  (counsel-describe-variable-function #'helpful-variable))
-    
-
-(use-package
- highlight-indent-guides
- :hook (prog-mode . highlight-indent-guides-mode)
- :custom
- (highlight-indent-guides-method (if (display-graphic-p)
-                                     'bitmap
-                                   'character))
- (highlight-indent-guides-responsive 'stack))
-
-
-(use-package julia-mode :mode "\\.jl\\'" :interpreter "julia")
-
-(use-package markdown-mode :mode "\\.md\\'")
-
-(use-package
- move-dup
- :bind
- (("M-p" . move-dup-move-lines-up)
-  ("M-n" . move-dup-move-lines-down)
-  ("M-P" . move-dup-duplicate-up)
-  ("M-N" . move-dup-duplicate-down)))
-
-(use-package powershell :mode ("\\.psm?1\\'" . powershell-mode))
-
-(use-package
- pulsar
- :init
- (setq
-  pulsar-pulse t
-  pulsar-delay 0.100
-  pulsar-iterations 10
-  pulsar-face 'pulsar-magenta
-  pulsar-highlight-face 'pulsar-yellow)
- :config (pulsar-global-mode 1)
- :hook (next-error . pulsar-pulse-line)
- :bind
- ("C-x l" . pulsar-pulse-line)
- ("C-X L" . pulsar-highlight-dwim))
-
-(use-package rainbow-delimiters
-  :hook (prog-mode . rainbow-delimiters-mode))
-
-(use-package scratch-pop :bind ("C-M-s" . scratch-pop))
-
-(use-package ssh-config-mode :defer t)
-
-(use-package typescript-mode :mode "\\.tsx?\\'")
+;;   (apheleia-global-mode +1)
+;;   (push '(emacs-lisp-mode . lisp-indent) apheleia-mode-alist)
+;;   (push '(racket-mode . lisp-indent) apheleia-mode-alist)
+;;   (push '(lisp-interaction-mode . lisp-indent) apheleia-mode-alist)
+;;   ;; :custom
+;;   ;; (apheleia-remote-algorithm 'remote)
+;;   )
 
 ;; TODO(nino): Whitespace cleanup package
 ;; https://github.com/purcell/whitespace-cleanup-mode
 
-(use-package yaml-mode :mode "\\.ya?ml\\'")
 
-;;
-;; Custom functions
-;;
-(defun find-init-file ()
-  "Edit init.el"
-  (interactive)
-  (find-file "~/.emacs.d/init.el"))
-
-(global-set-key (kbd "C-`") 'find-init-file)
-
-;;;
-;;; ELCORD
-;;;
-;; (require 'elcord)
-;;(elcord-mode)				; Connect to discord
-
-
-;; ;; Hack for using Daemon
-;; ;; https://github.com/Mstrodl/elcord/issues/17#issuecomment-571383324
-;; (defun elcord--disable-elcord-if-no-frames (f)
-;;   (declare (ignore f))
-;;   (when (let ((frames (delete f (visible-frame-list))))
-;; 	  (or (null frames)
-;; 	      (and (null (cdr frames))
-;; 		   (eq (car frames) terminal-frame))))
-;;     (elcord-mode -1)
-;;     (add-hook 'after-make-frame-functions 'elcord--enable-on-frame-created)))
-
-;; (defun elcord--enable-on-frame-created (f)
-;;   (declare (ignore f))
-;;   (elcord-mode +1))
-
-;; (defun my/elcord-mode-hook ()
-;;   (if elcord-mode (add-hook 'delete-frame-functions 'elcord--disable-elcord-if-no-frames)
-;;     (remove-hook 'delete-frame-functions 'elcord--disable-elcord-if-no-frames)))
-
-;; (add-hook 'elcord-mode-hook 'my/elcord-mode-hook)
-
-;; ;; Schedule turning off elcord mode in 10 sec, after it should have connected
-;; (run-at-time "10 sec" nil 'elcord--disable-elcord-if-no-frames -1)
-
-;;;
-;;; THEME SETTINGS
-;;;
-(setq column-number-mode t)
-
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(cursor-type t)
- '(custom-enabled-themes '(dracula))
- '(custom-safe-themes
-   '("1436985fac77baf06193993d88fa7d6b358ad7d600c1e52d12e64a2f07f07176"
-     default))
- '(doc-view-continuous t)
- '(elcord-editor-icon nil)
- '(elcord-use-major-mode-as-main-icon t))
-
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
-
-;; Restore GC threshhold
-;; https://github.com/doomemacs/doomemacs/issues/310#issuecomment-354424413
-(add-hook 'emacs-startup-hook
-          (lambda ()
-            (setq gc-cons-threshold 16777216
-                  gc-cons-percentage 0.1
-                  file-name-handler-alist last-file-name-handler-alist)))
+(provide 'init)
+;;; init.el ends here

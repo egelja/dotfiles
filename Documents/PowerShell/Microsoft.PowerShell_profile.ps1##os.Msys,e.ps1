@@ -1,6 +1,9 @@
 using namespace System.Management.Automation
 using namespace System.Management.Automation.Language
 
+# Add finutils to path
+$ENV:PATH = "$ENV:USERPROFILE\scoop\apps\findutils\current\bin;$ENV:PATH"
+
 # Set up stuff
 Import-Module posh-git
 # Import-Module posh-sshell  # no longer maintained

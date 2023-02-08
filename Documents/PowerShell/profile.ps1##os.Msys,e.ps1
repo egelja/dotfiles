@@ -4,11 +4,22 @@ function tree { tree.com /f @args }
 function la { Get-ChildItem -Force @args }
 function which { (Get-Command @args).Source }
 
+Remove-Alias -Force sl
+function sl { sl.exe -ad5w @args }
+
+function startx {
+    xlaunch.exe
+    $ENV:DISPLAY = "localhost:0.0"
+}
+
 Set-Alias c Clear-Host
 Set-Alias ipy "ipython.exe"
 Set-Alias make "mingw32-make.exe"
 # Set-Alias haste "C:\src\WinHaste\WinHaste.exe"
-Set-Alias time Measure-Command
+
+Set-Alias -Force cat "bat.exe"
+Set-Alias grep rg.exe
+Set-Alias less "C:\msys64\usr\bin\less.exe"
 
 # VirtualEnvWrapper
 $PSConfigDir = Split-Path $PROFILE.CurrentUserAllHosts
