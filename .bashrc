@@ -175,4 +175,5 @@ export SDKMAN_DIR="$HOME/.sdkman"
 #        fi
 #    fi
 #fi
-alias tm="tmux new-session -A -s main"
+alias tn="tmux new-session -A -s main"
+alias tm="tmux attach -t main"

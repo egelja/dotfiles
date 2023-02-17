@@ -10,3 +10,5 @@ export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:${GUROBI_HOME}/lib"
 mail-tests-done() {
     echo "Please check moore for details." | mailx -s "Tests Done!" nikola@u.northwestern.edu
 }
+
+ulimit -c unlimited

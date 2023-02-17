@@ -43,5 +43,3 @@
 	rebase = false
 [tag]
 	gpgSign = true
-[http]
-	sslBackend = schannel
