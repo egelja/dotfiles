@@ -13,7 +13,9 @@ activate() {
 }
 
 # clear
-alias c="clear"
+alias c=clear
+alias g=git
+alias mk="make -j"
 
 # clean directory
 alias cleanup="/bin/rm -f *# *~"
