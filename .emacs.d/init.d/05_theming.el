@@ -23,7 +23,6 @@
 ;; Emacs theme setup.
 
 ;;; Code:
-
 ;; Turn on line numbers
 (add-hook 'prog-mode-hook #'display-line-numbers-mode)
 (setq column-number-mode t)
@@ -43,11 +42,40 @@
 
 ;; Icons!
 (use-package all-the-icons
-  :if (display-graphic-p))
+  :if (or (display-graphic-p)
+          (is-windows-p)))
 
 ;; Emojis!
 (use-package emojify
-  :hook (after-init . global-emojify-mode))
+  :if (or (display-graphic-p)
+          (is-windows-p))
+  :custom
+  (emojify-emoji-styles '(unicode github))
+  :hook
+  (after-init . global-emojify-mode))
+
+;; Which-key
+(use-package which-key
+  :defer 2
+  :config
+  (which-key-mode))
+
+;; Keycast
+;; https://github.com/seagle0128/doom-modeline/issues/122#issuecomment-1133838869
+(use-package keycast
+  :config
+  (defun my/toggle-keycast()
+    (interactive)
+    (if (member '("" keycast-mode-line " ") global-mode-string)
+        (progn (setq global-mode-string (delete '("" keycast-mode-line " ") global-mode-string))
+               (remove-hook 'pre-command-hook 'keycast--update)
+               (message "Keycast OFF"))
+      (add-to-list 'global-mode-string '("" keycast-mode-line " "))
+      (add-hook 'pre-command-hook 'keycast--update t)
+      (message "Keycast ON")))
+  ;;:hook
+  ;;(doom-modeline-mode . my/toggle-keycast)
+  )
 
 ;; Doom modeline
 (use-package shrink-path ; have to preload this to get right path
@@ -57,6 +85,10 @@
    :local-repo "shrink-path"))
 
 (use-package doom-modeline
+  :custom
+  (doom-modeline-buffer-file-name-style 'relative-to-project)
+  (doom-modeline-env-python-executable "python")
+  (doom-modeline-env-load-string "...")
   :config
   (doom-modeline-mode 1))
 
@@ -94,13 +126,15 @@
 
 ;; Parrot!
 (use-package parrot
-  ;; :after (magit)
+  :after (doom-modeline)
+  :defer 5
   :hook
   (magit-post-commit . parrot-start-animation)
   ;; (mu4e-index-updated . parrot-start-animation)
   :config
   (parrot-mode)
-  (parrot-set-parrot-type 'science))
+  (parrot-set-parrot-type 'science)
+  (message "Parrot mode enabled"))
 
 ;;
 ;; DASHBOARD
@@ -113,7 +147,7 @@
   :config
   (dashboard-setup-startup-hook)
   (setq initial-buffer-choice (lambda () (get-buffer-create "*dashboard*")))
-  ;; https://github.com/emacs-dashboard/emacs-dashboard/issues/430#issuecomment-1376768467
+   ;; https://github.com/emacs-dashboard/emacs-dashboard/issues/430#issuecomment-1376768467
   (defun dashboard-string-pixel-width (str)
     "..."
     (require 'shr)

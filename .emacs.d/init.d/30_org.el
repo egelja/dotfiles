@@ -25,24 +25,74 @@
 ;;; Code:
 
 (use-package org
+  :mode "\\.org\\'"
   :config
   ;; Auto break lines
   (add-hook 'org-mode-hook #'(lambda () (setq fill-column 79)))
   (add-hook 'org-mode-hook #'auto-fill-mode)
+  (add-hook 'org-mode-hook #'display-line-numbers-mode)
   (add-hook 'org-mode-hook #'display-fill-column-indicator-mode))
+
+;; Org-roam
+(use-package emacsql-sqlite
+  :straight `(; *sigh* things be broken
+              :files
+              ("emacsql-sqlite.el" "sqlite" "emacsql-sqlite-pkg.el" "emacsql-sqlite-common.el")
+              :host github
+              :type git
+              :flavor melpa
+              :repo "magit/emacsql")
+  :defer 1)
+
+(use-package org-roam
+  :defer 1
+  :after (emacsql-sqlite)
+  :custom
+  (org-roam-directory "~/notes")
+  (org-roam-completion-everywhere t)
+  (org-roam-db-gc-threshold most-positive-fixnum)
+  ;; Dailies
+  (org-roam-dailies-directory "daily/")
+  (org-roam-dailies-capture-templates
+   '(("d" "default" entry
+      "* %?"
+      :target (file+head "%<%Y-%m-%d>.org"
+                         "#+title: %<%Y-%m-%d>\n"))))
+  :bind
+  (("C-c n l" . org-roam-buffer-toggle)
+   ("C-c n f" . org-roam-node-find)
+   ("C-c n i" . org-roam-node-insert)
+   :map org-mode-map
+   ("C-M-i" . completion-at-point))
+  :config
+  (org-roam-db-autosync-mode))
 
 ;; Alerts (for org agenda)
 ;; TODO
 (use-package alert
+  :defer 3
+  :after alert-toast
   :commands (alert)
-  :config (setq alert-default-style (if is-windows
+  :config (setq alert-default-style (if (is-windows-p)
                                         'toast
                                       'libnotify)))
 
-(when (is-windows-p)
-  (use-package alert-toast
-    :after alert))
+(use-package alert-toast
+  :defer 3
+  :if (is-windows-p))
 
+(use-package pomidor
+  :defer 3
+  :after alert
+  :bind (("<f12>" . pomidor))
+  :config (setq pomidor-sound-tick nil
+                pomidor-sound-tack nil)
+  :hook (pomidor-mode . (lambda ()
+                          (display-line-numbers-mode -1) ; Emacs 26.1+
+                          (setq left-fringe-width 0 right-fringe-width 0)
+                          (setq left-margin-width 2 right-margin-width 0)
+                          ;; force fringe update
+                          (set-window-buffer nil (current-buffer)))))
 
 (provide '30_org)
 ;;; 30_org.el ends here

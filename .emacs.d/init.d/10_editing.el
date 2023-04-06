@@ -37,7 +37,10 @@
 
 ;; Highlight todo messages in code
 (use-package hl-todo
-  :hook (prog-mode))
+  :hook (prog-mode LaTeX-mode TeX-mode)
+  :config
+  (push '("\\todo" . "#cc9393")
+        hl-todo-keyword-faces))
 
 ;; Line moving
 (use-package move-dup
@@ -70,18 +73,29 @@
   (ivy-count-format "(%d/%d) "))
 
 (use-package counsel
-  :init
-  (unless (executable-find "rg")
-    (warn
-     "\nWARNING: Could not find the ripgrep executable. It is recommended you install ripgrep."))
+  :ensure-system-package (rg . ripgrep)
+  :custom
+  (counsel-rg-base-command
+   "rg -S -M 240 --with-filename --no-heading --line-number --color never %s .")
+  ;; https://oremacs.com/2017/08/04/ripgrep/
+  (counsel-grep-base-command
+   "rg -i -M 240 --no-heading --line-number --color never '%s' %s")
   :config
   (counsel-mode)
   :bind
-  (("C-s" . swiper-isearch)))
+  (("C-s" . counsel-grep-or-swiper)
+   ("C-r" . counsel-rg)))
 
 (use-package ivy-prescient ; improve search ordering
   :config
-  (ivy-prescient-mode t))
+  (ivy-prescient-mode t)
+  ;; https://github.com/radian-software/prescient.el/issues/43
+  (setf (alist-get 'counsel-rg ivy-re-builders-alist) #'ivy--regex-plus))
+
+;; Zoxide
+(use-package zoxide.el
+  :bind
+  (("C-x C-S-f" . zoxide-find-file)))
 
 ;; Better help menus
 (use-package helpful
@@ -104,6 +118,21 @@
   :commands (magit-status))
 
 (use-package git-modes)
+
+(use-package forge
+  :after magit)
+
+(use-package age
+  :disabled
+  :custom
+  (age-default-identity (expand-file-name "~/.ssh/id_ed25519"))
+  (age-default-recipient
+   (mapcar 'expand-file-name             
+           '("~/.ssh/id_ed25519.pub")))
+  :config
+  ;(setq age-program "rage")
+  (age-file-enable)
+  (push "~/.authinfo.age" auth-sources))
 
 
 (provide '10_editing)

@@ -33,12 +33,38 @@
   (c-set-offset 'inher-intro 0)
   (c-set-offset 'template-args-cont '++)
   (c-set-offset 'inline-open 0)
-  (c-set-offset 'case-label 4))
+  (c-set-offset 'case-label 4)
+  (c-set-offset 'arglist-close 0))
 (add-hook 'c-mode-common-hook #'my/c-mode-common-hook)
 
+;; PYTHON
+(use-package pet
+  :ensure-system-package (dasel sqlite3)
+  :config
+  (add-hook 'python-mode-hook
+            #'(lambda ()
+                ;; Python interpreter
+                (setq-local python-shell-interpreter (pet-executable-find "python")
+                            python-shell-virtualenv-root (pet-virtualenv-root))
+                ;; Pytest (for python-pytest)
+                ;;(setq-local python-pytest-executable (pet-executable-find "pytest"))
+                ;; Eglot
+                (require 'eglot)
+                (setq-local eglot-server-programs
+                            (cons `((python-mode python-ts-mode)
+                                    . (,(pet-executable-find "pylsp")))
+                                  eglot-server-programs))                              
+                ))
+  :custom
+  (pet-toml-to-json-program-arguments '("-f" "-" "-r" "toml" "-w" "json"))
+  (pet-yaml-to-json-program-arguments '("-f" "-" "-r" "yaml" "-w" "json")))
+                
 ;; Language modes
 (use-package ahk-mode
   :mode "\\.ahk\\'")
+
+(use-package cmake-mode
+  :mode ("\\.cmake\\'" "CMakeLists.txt\\'"))
 
 (use-package gcode-mode
   :mode "\\.gcode\\'"
@@ -47,6 +73,13 @@
 (use-package julia-mode
   :mode "\\.jl\\'"
   :interpreter "julia")
+
+(use-package llvm-mode
+  :straight nil)
+
+(use-package qasm-mode
+  :straight nil
+  :mode "\\.qasm\\'")
 
 (use-package markdown-mode
   :mode "\\.md\\'"
@@ -66,7 +99,11 @@
   :mode "\\.tsx?\\'")
 
 (use-package yaml-mode
-  :mode "\\.ya?ml\\'")
+  :mode "\\.ya?ml\\'"
+  :config
+  (setq-local fill-column 79)
+  (add-hook 'yaml-mode-hook #'display-fill-column-indicator-mode)
+  (add-hook 'yaml-mode-hook #'display-line-numbers-mode))
 
 (provide '15_languages)
 ;;; 15_languages.el ends here

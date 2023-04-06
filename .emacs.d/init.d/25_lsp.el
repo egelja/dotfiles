@@ -26,27 +26,34 @@
 
 ;; Snippets
 (use-package yasnippet
+  :defer 3
   :after (yasnippet-snippets)
   :config
   (yas-global-mode 1))
 
-(use-package yasnippet-snippets)
+(use-package yasnippet-snippets
+  :defer 3)
 
 ;; Company
 (use-package company
-  :hook (after-init . global-company-mode))
+  :defer 3
+  :config
+  (global-company-mode))
 
 ;; Tree sitter (for syntax highlighting)
 (use-package tree-sitter
+  :defer 2
   :config
   (global-tree-sitter-mode)
   :hook
   (tree-sitter-after-on . tree-sitter-hl-mode))
 
-(use-package tree-sitter-langs)
+(use-package tree-sitter-langs
+  :defer 2)
 
 ;; Flymake (for showing errors)
 (use-package flymake
+  :defer 3
   :bind (:map flymake-mode-map
               ("C->" . flymake-goto-next-error)
               ("C-<" . flymake-goto-prev-error)))
@@ -58,8 +65,31 @@
 ;; Eglot (the magic LSP thing)
 (use-package eglot
   :after (company yasnippet)
-  :commands (eglot)
-  :bind ("<f2>" . eglot-rename))
+  :commands (eglot eglot-format eglot-rename)
+  :autoload (eglot-current-server)
+  :init
+  (defun my/eglot-start-or-format ()
+    (interactive)
+    (call-interactively (if (eglot-current-server)
+                            'eglot-format-buffer
+                          'eglot)))
+  (defun my/eglot-rename ()
+    (interactive)
+    (when (not (eglot-current-server))
+      (call-interactively 'eglot))
+    (call-interactively 'eglot-rename))
+  ;; For hooks
+  ;; https://github.com/joaotavora/eglot/issues/574#issuecomment-1249316625
+  (defun my/eglot-organize-imports ()
+    (call-interactively 'eglot-code-action-organize-imports))
+  (defun my/eglot-mode-hook ()
+    (when (eglot-managed-p)
+      (add-hook 'before-save-hook #'eglot-format-buffer -10 t)
+      (add-hook 'before-save-hook #'my/eglot-organize-imports nil t)))
+  (add-hook 'eglot-managed-mode-hook #'my/eglot-mode-hook)
+  :bind
+  (("<f2>" . my/eglot-rename)
+   ("<f1>" . my/eglot-start-or-format)))
 
 
 (provide '25_lsp)

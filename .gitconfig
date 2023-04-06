@@ -14,6 +14,7 @@
 	pl = pull
 	pu = push
 	s = status -sb
+	sync = "!git pull && git push"
 	unstage = reset HEAD --
 [core]
 	attributesfile = ~/.gitattributes
@@ -21,6 +22,9 @@
 	editor = nano
 	excludesFile = ~/.gitignore
 	symlinks = true
+	compression = 9
+	packedGitLimit = 512m
+	packedGitWindowSize = 512m
 [commit]
 	gpgsign = true
 [diff "lesspipe"]
@@ -45,3 +49,12 @@
 	gpgSign = true
 [http]
 	sslBackend = schannel
+	postBuffer = 157286400
+[push]
+	autoSetupRemote = true
+[github]
+	user = MrAwesomeRocks
+[pack]
+	deltaCacheSize = 2047m
+	packSizeLimit = 2047m
+	windowMemory = 2047m
