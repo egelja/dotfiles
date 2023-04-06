@@ -52,7 +52,7 @@
 [push]
 	autoSetupRemote = true
 [github]
-	user = nvm9
+	user = egelja
 [pack]
 	deltaCacheSize = 2047m
 	packSizeLimit = 2047m
