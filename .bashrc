@@ -91,6 +91,11 @@ export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quo
 #   sleep 10; alert
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
+# Local bash environment
+if [ -f ~/.bashrc.local ]; then
+    . ~/.bashrc.local
+fi
+
 # Alias definitions.
 # You may want to put all your additions into a separate file like
 # ~/.bash_aliases, instead of adding them here directly.
@@ -159,20 +164,16 @@ export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || pr
 export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
 
-
-# Local bash environment
-if [ -f ~/.bashrc.local ]; then
-    . ~/.bashrc.local
-fi
-
 ##
 ## TMUX auto attach
 ##
-if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then      # if this is an SSH session
-    if which tmux >/dev/null 2>&1; then                 # check if tmux is installed
-        if [[ -z "$TMUX" ]]; then                       # do not allow "tmux in tmux"
-            # https://unix.stackexchange.com/questions/552614/run-tmux-on-ssh-login
-            exec tmux new-session -A -s main
-        fi
-    fi
-fi
+#if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then      # if this is an SSH session
+#    if which tmux >/dev/null 2>&1; then                 # check if tmux is installed
+#        if [[ -z "$TMUX" ]]; then                       # do not allow "tmux in tmux"
+#            # https://unix.stackexchange.com/questions/552614/run-tmux-on-ssh-login
+#            exec tmux new-session -A -s main
+#        fi
+#    fi
+#fi
+alias tn="tmux new-session -A -s main"
+alias tm="tmux attach -t main"

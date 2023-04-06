@@ -48,12 +48,11 @@
 [tag]
 	gpgSign = true
 [http]
-	sslBackend = schannel
 	postBuffer = 157286400
 [push]
 	autoSetupRemote = true
 [github]
-	user = MrAwesomeRocks
+	user = nvm9
 [pack]
 	deltaCacheSize = 2047m
 	packSizeLimit = 2047m
