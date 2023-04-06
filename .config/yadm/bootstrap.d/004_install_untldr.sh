@@ -6,7 +6,7 @@ echo "Installing UnTLDR!"
 cd "$HOME"
 git clone https://github.com/unInstance/untldr.git &&
     cd untldr
-git checkout a36cdcd
+#git checkout a36cdcd
 
 # Patch styles
 cp "$HOME/.config/yadm/bootstrap.d/better_tldr_style.patch" .
