@@ -26,34 +26,32 @@
 
 ;; Snippets
 (use-package yasnippet
-  :defer 3
+  :defer 10
   :after (yasnippet-snippets)
   :config
   (yas-global-mode 1))
 
 (use-package yasnippet-snippets
-  :defer 3)
+  :defer 10)
 
 ;; Company
 (use-package company
-  :defer 3
+  :defer 10
   :config
   (global-company-mode))
 
 ;; Tree sitter (for syntax highlighting)
 (use-package tree-sitter
-  :defer 2
   :config
   (global-tree-sitter-mode)
   :hook
   (tree-sitter-after-on . tree-sitter-hl-mode))
 
-(use-package tree-sitter-langs
-  :defer 2)
+(use-package tree-sitter-langs)
 
 ;; Flymake (for showing errors)
 (use-package flymake
-  :defer 3
+  :defer 10
   :bind (:map flymake-mode-map
               ("C->" . flymake-goto-next-error)
               ("C-<" . flymake-goto-prev-error)))

@@ -19,6 +19,12 @@ Import-Module posh-git
 Invoke-Expression (&starship init powershell)
 iex "$(thefuck --alias)"
 
+# Alias for latexmk
+function latex {
+    latexmk.exe -pdf
+    Get-ChildItem *.pdf | foreach { Start-Process $_ }
+}
+
 #
 # PSReadLine
 #

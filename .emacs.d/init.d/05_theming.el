@@ -56,7 +56,7 @@
 
 ;; Which-key
 (use-package which-key
-  :defer 2
+  :defer 5
   :config
   (which-key-mode))
 
@@ -127,7 +127,7 @@
 ;; Parrot!
 (use-package parrot
   :after (doom-modeline)
-  :defer 5
+  :defer 10
   :hook
   (magit-post-commit . parrot-start-animation)
   ;; (mu4e-index-updated . parrot-start-animation)
@@ -154,7 +154,7 @@
     (shr-string-pixel-width str))
   :custom
   ;;  (dashboard-center-content t)
-  ;;  (dashboard-startup-banner 'logo)
+  (dashboard-startup-banner "~/.emacs.d/fancy.png")
   (dashboard-set-navigator t)
   (dashboard-page-separator "\n\f\n")
   (dashboard-projects-backend 'project-el)
@@ -172,7 +172,7 @@
      ((,(all-the-icons-octicon "mark-github" :height 1.1 :v-adjust 0.0)
        "Github"
        "Open Github"
-       (lambda (&rest _) (browse-url "https://github.com/MrAwesomeRocks?tab=repositories")))
+       (lambda (&rest _) (browse-url "https://github.com/egelja?tab=repositories")))
       (,(all-the-icons-material "school" :height 1.1 :v-adjust -0.25)
        "Canvas"
        "Open Canvas"
