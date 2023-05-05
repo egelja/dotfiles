@@ -14,11 +14,12 @@ activate() {
 
 # clear
 alias c=clear
-alias g=git
-alias mk="make -j"
+
+alias make="make -j"
 
 # clean directory
-alias cleanup="/bin/rm -f *# *~ core core.*"
+alias cleanup="/bin/rm -vf *# *~ core core.*"
+alias lsjunk='echo -e *#\\n*~\\ncore\\ncore.*'
 
 # Directories
 alias home="cd ~"
