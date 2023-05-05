@@ -26,12 +26,6 @@
                               (time-subtract after-init-time before-init-time)))
                      gcs-done)))
 
-;; https://github.com/travitch/dotfiles/blob/master/home/dot_emacs.d/early-init.el
-;; Disable GUI stuff as early as possible
-(when (display-graphic-p)
-  ;; Disable ctrl Z, but only in GUI mode.  This is still useful
-  ;; in a terminal
-  (global-unset-key "\^z"))
 
 (provide 'early-init)
 ;;; early-init.el ends here

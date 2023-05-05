@@ -77,6 +77,9 @@
   (straight-use-package-by-default t)
   (straight-vc-git-default-protocol 'https))
 
+(use-package use-package-ensure-system-package
+  :ensure t)
+
 ;; Sub-file loading
 (use-package init-loader
   :custom
@@ -84,18 +87,6 @@
    (expand-file-name (concat user-emacs-directory "init.d/")))
   :config
   (init-loader-load))
-
-;; Packages
-
-;; (use-package apheleia
-;;   :config
-;;   (apheleia-global-mode +1)
-;;   (push '(emacs-lisp-mode . lisp-indent) apheleia-mode-alist)
-;;   (push '(racket-mode . lisp-indent) apheleia-mode-alist)
-;;   (push '(lisp-interaction-mode . lisp-indent) apheleia-mode-alist)
-;;   ;; :custom
-;;   ;; (apheleia-remote-algorithm 'remote)
-;;   )
 
 ;; TODO(nino): Whitespace cleanup package
 ;; https://github.com/purcell/whitespace-cleanup-mode
