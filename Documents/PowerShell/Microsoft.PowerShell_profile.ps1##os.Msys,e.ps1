@@ -25,6 +25,11 @@ function latex {
     Get-ChildItem *.pdf | foreach { Start-Process $_ }
 }
 
+# LSD aliases
+Remove-Alias -Force ls
+function ls { lsd -l @args }
+function la { lsd -la @args }
+
 #
 # PSReadLine
 #

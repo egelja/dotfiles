@@ -59,5 +59,8 @@
   :config
   (pdf-loader-install))
 
+(with-eval-after-load "pdf-view"
+  (add-hook 'pdf-view-mode-hook #'auto-revert-mode))
+
 (provide '35_tex)
 ;;; 35_tex.el ends here

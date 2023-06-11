@@ -2,7 +2,6 @@ Set-Alias nano C:\msys64\usr\bin\nano.exe
 Set-Alias open Start-Process
 
 function tree { tree.com /f @args }
-function la { Get-ChildItem -Force @args }
 function which { (Get-Command @args).Source }
 
 Remove-Alias -Force sl
