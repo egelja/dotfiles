@@ -1,5 +1,5 @@
 # dotfiles
-My dotfiles.
+My dotfiles. Managed with yadm.
 
 Released under Unlicense.
 
