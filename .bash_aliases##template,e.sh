@@ -17,6 +17,11 @@ alias c=clear
 alias g=git
 alias mk="make -j"
 
+# Tmux
+alias tn="tmux new-session -A -s"
+alias tm="tmux attach -t"
+alias tls="tmux ls"
+
 # clean directory
 alias cleanup="/bin/rm -f *# *~"
 

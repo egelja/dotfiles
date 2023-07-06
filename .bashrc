@@ -125,6 +125,11 @@ if ! shopt -oq posix; then
     fi
 fi
 
+if [[ -f "${XDG_DATA_HOME:-$HOME/.local/share}"/bash-completion/complete_alias ]]; then
+    . "${XDG_DATA_HOME:-$HOME/.local/share}"/bash-completion/complete_alias
+fi
+
+
 # Set up ssh agent
 if [[ $(uname -o) != "Msys" ]]; then
     # Taken from https://stackoverflow.com/a/48509425
@@ -163,17 +168,3 @@ export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || pr
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
-
-##
-## TMUX auto attach
-##
-#if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then      # if this is an SSH session
-#    if which tmux >/dev/null 2>&1; then                 # check if tmux is installed
-#        if [[ -z "$TMUX" ]]; then                       # do not allow "tmux in tmux"
-#            # https://unix.stackexchange.com/questions/552614/run-tmux-on-ssh-login
-#            exec tmux new-session -A -s main
-#        fi
-#    fi
-#fi
-alias tn="tmux new-session -A -s main"
-alias tm="tmux attach -t main"
