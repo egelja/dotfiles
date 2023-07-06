@@ -13,14 +13,20 @@
 	last = log -1 HEAD --show-signature --stat
 	pl = pull
 	pu = push
+	puf = push --force-with-lease
 	s = status -sb
+	sync = "!git pull && git push"
 	unstage = reset HEAD --
+	update = "!f() { git fetch origin && git rebase origin/$1; }; f"
 [core]
 	attributesfile = ~/.gitattributes
 	autocrlf = input
 	editor = nano
 	excludesFile = ~/.gitignore
 	symlinks = true
+	compression = 9
+	packedGitLimit = 512m
+	packedGitWindowSize = 512m
 [commit]
 	gpgsign = true
 [diff "lesspipe"]
@@ -43,3 +49,13 @@
 	rebase = false
 [tag]
 	gpgSign = true
+[http]
+	postBuffer = 157286400
+[push]
+	autoSetupRemote = true
+[github]
+	user = egelja
+[pack]
+	deltaCacheSize = 2047m
+	packSizeLimit = 2047m
+	windowMemory = 2047m

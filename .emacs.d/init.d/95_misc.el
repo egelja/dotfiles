@@ -36,6 +36,7 @@
 (setq doc-view-continuous t)
 
 ;; RSS feeds
+;; https://www.youneedfeeds.com/starter-packs
 (use-package elfeed
   :bind
   ("C-x w" . elfeed)
@@ -44,7 +45,8 @@
    '(("https://xkcd.com/rss.xml" webcomic)
      ("https://hnrss.org/frontpage" news)
      ("https://web3isgoinggreat.com/feed.xml" news)
-     ("https://chipsandcheese.com/feed/" article))))
+     ("https://fasterthanli.me/index.xml" tech article)
+     ("https://chipsandcheese.com/feed/" tech article))))
 
 
 (provide '35_misc)

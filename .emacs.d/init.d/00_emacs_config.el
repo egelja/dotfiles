@@ -24,9 +24,17 @@
 
 ;;; Code:
 
+;; https://github.com/travitch/dotfiles/blob/master/home/dot_emacs.d/early-init.el
+;; Edit GUI things as early as possible
+(when (or (display-graphic-p)
+          (is-windows-p))
+  ;; Disable ctrl Z, but only in GUI mode.  This is still useful
+  ;; in a terminal
+  (global-unset-key (kbd "C-z")))
+
 ;; Use UTF-8
 (set-language-environment "UTF-8")
-(set-default-coding-systems 'utf-8)
+(prefer-coding-system 'utf-8-unix) ; UNIX newlines
 
 ;; Give custom its own file
 (setq custom-file (locate-user-emacs-file "custom.el"))
@@ -84,12 +92,17 @@
 
 (use-package flyspell
   :bind (:map flyspell-mode-map
-              ; Unbind confusing and bad keybinding
-              ("C-;" . nil))
+              ; Unbind confusing and bad keybindings
+              ("C-;" . nil)
+              ("C-M-i" . nil))
   :hook (prog-mode text-mode))
 
 ;; TRAMP
 (use-package tramp
+  :demand t
+  ;; https://github.com/radian-software/straight.el/issues/236#issuecomment-886324625
+  :straight `(:build t :pre-build (; Generate autoloads
+                                   ("make" "autoloads")))
   :custom
   (tramp-default-method (if (is-windows-p)
                             "plink"
