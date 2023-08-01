@@ -8,12 +8,13 @@
 	co = checkout
 	d = diff
 	ds = diff --staged
+	f = fetch --prune
 	graph = log --oneline --decorate --graph --all
 	ignore = "!gi() { curl -sL https://www.toptal.com/developers/gitignore/api/$@ ;}; gi"
 	last = log -1 HEAD --show-signature --stat
-	pl = pull
-	pu = push
-	puf = push --force-with-lease
+	pl = pull --prune
+	pu = push --follow-tags
+	puf = push --force-with-lease --follow-tags
 	s = status -sb
 	sync = "!git pull && git push"
 	unstage = reset HEAD --
@@ -59,3 +60,5 @@
 	deltaCacheSize = 2047m
 	packSizeLimit = 2047m
 	windowMemory = 2047m
+[merge]
+	conflictStyle = diff3
