@@ -4,7 +4,7 @@
 	aa = add -A
 	br = branch
 	c = commit
-	ca = commit -a
+	ca = "!git add -A && git commit"
 	co = checkout
 	d = diff
 	ds = diff --staged
