@@ -6,13 +6,6 @@
  '(TeX-print-command "start \"\" %f")
  '(age-debug t)
  '(current-language-environment "UTF-8")
- '(elfeed-feeds
-   '("https://building.open-home.io/rss/"
-     ("https://xkcd.com/rss.xml" webcomic)
-     ("https://hnrss.org/frontpage" news)
-     ("https://web3isgoinggreat.com/feed.xml" news)
-     ("https://fasterthanli.me/index.xml" tech article)
-     ("https://chipsandcheese.com/feed/" tech article)) nil nil "Customized with use-package elfeed")
  '(org-agenda-loop-over-headlines-in-active-region nil)
  '(org-agenda-prefix-format
    '((dashboard-agenda . " %i %-12:c %s ")

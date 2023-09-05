@@ -38,23 +38,38 @@
 (add-hook 'c-mode-common-hook #'my/c-mode-common-hook)
 
 ;; PYTHON
+(use-package python-pytest
+  :after (python)
+  :commands (python-pytest-dispatch)
+  :bind (:map python-mode-map
+         ("C-c t" . python-pytest-dispatch)))
+
 (use-package pet
+  :straight (:fork (:host github :branch "MrAwesomeRocks-patch-1"))
   :ensure-system-package (dasel sqlite3)
   :config
-  (add-hook 'python-mode-hook
-            #'(lambda ()
-                ;; Python interpreter
-                (setq-local python-shell-interpreter (pet-executable-find "python")
-                            python-shell-virtualenv-root (pet-virtualenv-root))
-                ;; Pytest (for python-pytest)
-                ;;(setq-local python-pytest-executable (pet-executable-find "pytest"))
-                ;; Eglot
-                (require 'eglot)
-                (setq-local eglot-server-programs
-                            (cons `((python-mode python-ts-mode)
-                                    . (,(pet-executable-find "pylsp")))
-                                  eglot-server-programs))                              
-                ))
+  (defun my/python-setup-pet ()
+    ;; Python interpreter
+    (setq-local python-shell-interpreter (pet-executable-find "python")
+                python-shell-virtualenv-root (pet-virtualenv-root))
+
+    ;; DAP
+    (setq-local dap-python-executable python-shell-interpreter)
+    
+    ;; Pytest (for python-pytest)
+    (setq-local python-pytest-executable (pet-executable-find "pytest"))
+
+    ;; Flycheck
+    (pet-flycheck-setup)
+    
+    ;; Eglot
+    (with-eval-after-load 'eglot
+      (setq-local eglot-server-programs
+                  (cons `((python-mode python-ts-mode)
+                          . (,(pet-executable-find "pylsp")))
+                        eglot-server-programs))))
+  
+  (add-hook 'python-mode-hook #'my/python-setup-pet)
   :custom
   (pet-toml-to-json-program-arguments '("-f" "-" "-r" "toml" "-w" "json"))
   (pet-yaml-to-json-program-arguments '("-f" "-" "-r" "yaml" "-w" "json")))

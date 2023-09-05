@@ -33,19 +33,18 @@
   (add-hook 'org-mode-hook #'display-fill-column-indicator-mode))
 
 ;; Org-roam
-(use-package emacsql-sqlite
-  :straight `(; *sigh* things be broken
-              :files
-              ("emacsql-sqlite.el" "sqlite" "emacsql-sqlite-pkg.el" "emacsql-sqlite-common.el")
-              :host github
-              :type git
-              :flavor melpa
-              :repo "magit/emacsql")
-  :defer 1)
+;; (use-package emacsql-sqlite
+;;   :straight `(; *sigh* things be broken
+;;               :files
+;;               ("emacsql-sqlite.el" "sqlite" "emacsql-sqlite-pkg.el" "emacsql-sqlite-common.el")
+;;               :host github
+;;               :type git
+;;               :flavor melpa
+;;               :repo "magit/emacsql")
+;;   :defer 1)
 
 (use-package org-roam
   :defer 1
-  :after (emacsql-sqlite)
   :custom
   (org-roam-directory "~/notes")
   (org-roam-completion-everywhere t)
@@ -68,18 +67,18 @@
 
 (use-package org-roam-ui
   :straight
-    (:host github :repo "org-roam/org-roam-ui" :branch "main" :files ("*.el" "out"))
-    :after org-roam
-;;         normally we'd recommend hooking orui after org-roam, but since org-roam does not have
-;;         a hookable mode anymore, you're advised to pick something yourself
-;;         if you don't care about startup time, use
-;;  :hook (after-init . org-roam-ui-mode)
-    :commands (org-roam-ui-mode)
-    :config
-    (setq org-roam-ui-sync-theme t
-          org-roam-ui-follow t
-          org-roam-ui-update-on-save t
-          org-roam-ui-open-on-start t))
+  (:host github :repo "org-roam/org-roam-ui" :branch "main" :files ("*.el" "out"))
+  :after org-roam
+  ;;         normally we'd recommend hooking orui after org-roam, but since org-roam does not have
+  ;;         a hookable mode anymore, you're advised to pick something yourself
+  ;;         if you don't care about startup time, use
+  ;;  :hook (after-init . org-roam-ui-mode)
+  :commands (org-roam-ui-mode)
+  :config
+  (setq org-roam-ui-sync-theme t
+        org-roam-ui-follow t
+        org-roam-ui-update-on-save t
+        org-roam-ui-open-on-start t))
 
 ;; Alerts (for org agenda)
 ;; TODO

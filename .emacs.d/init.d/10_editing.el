@@ -27,7 +27,9 @@
 ;; Window jumping
 (use-package ace-window
   :bind ("C-x o" . ace-window)
-  :config (ace-window-display-mode 1))
+  :config
+  (push "*eldoc*" aw-ignored-buffers)
+  (ace-window-display-mode 1))
 
 ;; Monitor keys pressed
 (use-package keyfreq
@@ -37,7 +39,7 @@
 
 ;; Highlight todo messages in code
 (use-package hl-todo
-  :hook (prog-mode LaTeX-mode TeX-mode)
+  :hook ((prog-mode LaTeX-mode TeX-mode) . hl-todo-mode)
   :config
   (push '("\\todo" . "#cc9393")
         hl-todo-keyword-faces))
