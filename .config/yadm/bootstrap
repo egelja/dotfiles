@@ -9,6 +9,15 @@ set -eu
 # Make sure the $HOME directory is set up correctly - wow windows is dumb
 export HOME="${HOME:-$USERPROFILE}"
 
+# Check if personal machine
+echo -e "Is this a personal machine?\n"
+select yn in "Yes" "No"; do
+    case $yn in
+        No ) export PERSONAL_MACHINE=0; break;;
+        Yes ) export PERSONAL_MACHINE=1; break;;
+    esac
+done
+
 # Directory to look for bootstrap executables in
 BOOTSTRAP_D="${BASH_SOURCE[0]}.d"
 

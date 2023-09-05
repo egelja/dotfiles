@@ -25,20 +25,17 @@ curl -fsL "$starship_zip_download_url" -o "starship.zip" &&
     unzip -u "$starship.zip" &&
     rm "starship.zip"
 
-{% else %}
 
-echo "Is this a personal machine?"
+{% else %}
 
 BIN_DIR="/usr/local/bin"
 
-select yn in "Yes" "No"; do
-    case $yn in
-        Yes ) break;;
-        No ) BIN_DIR="$HOME/.local/bin"; break;;
-    esac
-done
+if ! $PERSONAL_MACHINE; then
+    BIN_DIR="$HOME/.local/bin"
+fi
 
 # Use starship installer
-curl -sS https://starship.rs/install.sh | sh -s -- --bin-dir "$BIN_DIR"
+curl -sS https://starship.rs/install.sh | sh -s -- --bin-dir "$BIN_DIR" -y
+
 
 {% endif %}

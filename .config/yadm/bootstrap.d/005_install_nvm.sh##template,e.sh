@@ -14,14 +14,6 @@ echo "**************************************************************************
 echo "                               INSTALLING NVM                                "
 echo "*****************************************************************************"
 
-echo "Do you want to install NVM?"
-select yn in "Yes" "No"; do
-    case $yn in
-        Yes ) break;;
-        No ) exit;;
-    esac
-done
-
 nvm_latest_tag=$(
     curl -sL https://api.github.com/repos/nvm-sh/nvm/releases/latest |
         jq -r ".tag_name"

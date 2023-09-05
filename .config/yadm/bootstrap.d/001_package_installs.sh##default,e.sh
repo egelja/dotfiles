@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -l
 # -*- mode: shell-script -*-
 
 #
@@ -8,13 +8,9 @@ echo "**************************************************************************
 echo "                          INSTALLING APT PACKAGES                            "
 echo "*****************************************************************************"
 
-echo "Is this a personal machine?"
-select yn in "Yes" "No"; do
-    case $yn in
-        Yes ) break;;
-        No ) exit 0;;
-    esac
-done
+if ! $PERSONAL_MACHINE; then
+    exit 0
+fi
 
 declare -a PACKAGES=(
     "emacs"
