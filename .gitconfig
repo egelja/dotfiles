@@ -19,7 +19,7 @@
 	s = status -sb
 	sync = "!git pull && git push"
 	unstage = reset HEAD --
-	update = "!f() { git fetch origin && git rebase origin/$1; }; f"
+	update = "!f() { git fetch origin && git rebase origin/$1 --committer-date-is-author-date; }; f"
 [core]
 	attributesfile = ~/.gitattributes
 	autocrlf = input
