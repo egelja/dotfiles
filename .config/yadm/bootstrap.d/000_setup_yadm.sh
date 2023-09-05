@@ -1,5 +1,9 @@
 #!/bin/bash
 
+echo "*****************************************************************************"
+echo "                              INSTALLING YADM                                "
+echo "*****************************************************************************"
+
 # Set $HOME for Windows
 if [[ $(uname -o) == "Msys" ]]; then
     echo 'Setting $HOME because windows is stupid!'

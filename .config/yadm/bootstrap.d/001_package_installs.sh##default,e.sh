@@ -4,6 +4,18 @@
 #
 # Apt packages
 #
+echo "*****************************************************************************"
+echo "                          INSTALLING APT PACKAGES                            "
+echo "*****************************************************************************"
+
+echo "Is this a personal machine?"
+select yn in "Yes" "No"; do
+    case $yn in
+        Yes ) break;;
+        No ) exit 0;;
+    esac
+done
+
 declare -a PACKAGES=(
     "emacs"
     "jq"
