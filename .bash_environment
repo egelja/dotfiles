@@ -7,11 +7,11 @@ then
 fi
 
 # Lesspipe
-eval `lesspipe.sh`
-export LESS='-R'
+eval `lesspipe.sh` || export LESSOPEN="|- '$HOME/.local/bin/lesspipe.sh' '%s'"
+export LESS=' -R '
 
-#which bat > /dev/null 2>&1 && export LESSCOLORIZER="bat --style=plain"
-#which batcat > /dev/null 2>&1 && export LESSCOLORIZER="batcat --style=plain"
+which bat > /dev/null 2>&1 && export LESSCOLORIZER="bat --style=plain"
+which batcat > /dev/null 2>&1 && export LESSCOLORIZER="batcat --style=plain"
 
 # tldr stuff
 #complete -W "$(tldr 2>/dev/null --list)" tldr

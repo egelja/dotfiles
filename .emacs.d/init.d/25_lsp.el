@@ -26,17 +26,22 @@
 
 ;; Snippets
 (use-package yasnippet
-  :defer 10
   :after (yasnippet-snippets)
   :config
   (yas-global-mode 1))
 
-(use-package yasnippet-snippets
-  :defer 10)
+(use-package yasnippet-snippets)
+
+(use-package yasnippet-radical-snippets ; python and cpp docstring snippets
+  :straight (:host github
+             :repo "Xaldew/yasnippet-radical-snippets"
+             :files (:defaults "snippets" "yasnippet-radical-snippets.el"))
+  :after yasnippet
+  :config
+  (yasnippet-radical-snippets-initialize))
 
 ;; Company
 (use-package company
-  :defer 10
   :config
   (global-company-mode))
 
@@ -51,7 +56,6 @@
 
 ;; Flymake (for showing errors)
 (use-package flymake
-  :defer 10
   :bind (:map flymake-mode-map
               ("C->" . flymake-goto-next-error)
               ("C-<" . flymake-goto-prev-error)))
@@ -68,9 +72,9 @@
   :init
   (defun my/eglot-start-or-format ()
     (interactive)
-    (call-interactively (if (eglot-current-server)
-                            'eglot-format-buffer
-                          'eglot)))
+    (if (eglot-current-server)
+        (call-interactively 'eglot-format-buffer)
+      (call-interactively 'eglot)))
   (defun my/eglot-rename ()
     (interactive)
     (when (not (eglot-current-server))
@@ -83,11 +87,29 @@
   (defun my/eglot-mode-hook ()
     (when (eglot-managed-p)
       (add-hook 'before-save-hook #'eglot-format-buffer -10 t)
-      (add-hook 'before-save-hook #'my/eglot-organize-imports nil t)))
+      ;; In python-mode, import organization is done in eglot-format-buffer
+      (unless (or (eq major-mode 'python-mode)
+                  (eq major-mode 'python-ts-mode))
+        (add-hook 'before-save-hook #'my/eglot-organize-imports nil t))))
   (add-hook 'eglot-managed-mode-hook #'my/eglot-mode-hook)
+  :config
+  ;; Set server variables
+  (setq-default eglot-workspace-configuration
+              '(:pylsp (:plugins (:jedi_completion (:include_params t 
+                                                    :fuzzy t)
+                                  :jedi_rename     (:enabled t)
+                                  :rope_autoimport (:enabled :json-false)
+                                  :rope_completion (:enabled :json-false)
+                                  :rope_rename     (:enabled :json-false)
+                                  )
+                        :rope    (:ropeFolder      ".ropeproject"))))
+  :custom
+  (eglot-confirm-server-initiated-edits nil)
   :bind
   (("<f2>" . my/eglot-rename)
    ("<f1>" . my/eglot-start-or-format)))
+
+(use-package eldoc)
 
 
 (provide '25_lsp)

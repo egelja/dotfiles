@@ -75,6 +75,13 @@
       kept-new-versions      5                              ; keep some new versions
       kept-old-versions      2)                             ; and some old ones, too
 
+;; Resizing windows
+;; https://old.reddit.com/r/emacs/comments/b13n39/how_do_you_manage_window_sizes_in_emacs/
+(global-set-key (kbd "S-C-<left>")  'shrink-window-horizontally)
+(global-set-key (kbd "S-C-<right>") 'enlarge-window-horizontally)
+(global-set-key (kbd "S-C-<down>")  'shrink-window)
+(global-set-key (kbd "S-C-<up>")    'enlarge-window)
+
 ;; Window layout history
 (use-package winner
   :config
@@ -95,7 +102,7 @@
               ; Unbind confusing and bad keybindings
               ("C-;" . nil)
               ("C-M-i" . nil))
-  :hook (prog-mode text-mode))
+  :hook ((prog-mode text-mode) . flyspell-mode))
 
 ;; TRAMP
 (use-package tramp

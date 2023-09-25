@@ -24,6 +24,10 @@
 
 ;;; Code:
 
+;; Debug on error for our init files
+(setq debug-on-error t)
+
+;; Add vendored lisp to path
 (add-to-list 'load-path
              (expand-file-name (concat user-emacs-directory "site-lisp/")))
 
@@ -67,6 +71,9 @@
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
 
+(setq straight-host-usernames
+      '((github . "egelja")))
+
 ;; Install use-package
 (straight-use-package 'use-package)
 
@@ -90,6 +97,9 @@
 
 ;; TODO(nino): Whitespace cleanup package
 ;; https://github.com/purcell/whitespace-cleanup-mode
+
+;; Turn off debugging on error now that we've finished loading
+(setq debug-on-error nil)
 
 
 (provide 'init)

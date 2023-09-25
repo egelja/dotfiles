@@ -34,6 +34,7 @@
 (setq-default cursor-type 'bar)
 
 ;; Yeet bars
+(menu-bar-mode -1)
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
 
@@ -42,8 +43,17 @@
 
 ;; Icons!
 (use-package all-the-icons
+  ;; :straight (all-the-icons
+  ;;            :type git
+  ;;            :host github
+  ;;            :repo "domtronn/all-the-icons.el"
+  ;;            :branch "svg"
+  ;;            :files (:defaults "svg"))
   :if (or (display-graphic-p)
           (is-windows-p)))
+
+(use-package all-the-icons-dired
+  :hook (dired-mode . all-the-icons-dired-mode))
 
 ;; Emojis!
 (use-package emojify
@@ -104,7 +114,7 @@
   ;; Enable flashing mode-line on errors
   (doom-themes-visual-bell-config)
   ;; Enable custom neotree theme (all-the-icons must be installed!)
-  (doom-themes-neotree-config)
+  ;; (doom-themes-neotree-config)
   ;; or for treemacs users
   (setq doom-themes-treemacs-theme "doom-colors") ; use "doom-colors" for less minimal icon theme
   (doom-themes-treemacs-config)
@@ -147,17 +157,13 @@
   :config
   (dashboard-setup-startup-hook)
   (setq initial-buffer-choice (lambda () (get-buffer-create "*dashboard*")))
-   ;; https://github.com/emacs-dashboard/emacs-dashboard/issues/430#issuecomment-1376768467
-  (defun dashboard-string-pixel-width (str)
-    "..."
-    (require 'shr)
-    (shr-string-pixel-width str))
   :custom
   ;;  (dashboard-center-content t)
   (dashboard-startup-banner "~/.emacs.d/fancy.png")
   (dashboard-set-navigator t)
   (dashboard-page-separator "\n\f\n")
   (dashboard-projects-backend 'project-el)
+  ;(dashboard-icon-type 'all-the-icons)
   (dashboard-set-heading-icons t)
   (dashboard-set-file-icons t)
   (dashboard-set-navigator t)

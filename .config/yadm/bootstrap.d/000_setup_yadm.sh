@@ -1,5 +1,9 @@
 #!/bin/bash
 
+echo "*****************************************************************************"
+echo "                              INSTALLING YADM                                "
+echo "*****************************************************************************"
+
 # Set $HOME for Windows
 if [[ $(uname -o) == "Msys" ]]; then
     echo 'Setting $HOME because windows is stupid!'
@@ -11,7 +15,7 @@ local_bin="$HOME/.local/bin"
 
 # Update to ssh url
 echo "Updating the yadm repo origin URL"
-yadm remote set-url origin "git@github.com:MrAwesomeRocks/dotfiles.git"
+yadm remote set-url origin "git@github.com:egelja/dotfiles.git"
 
 # Install yadm locally
 echo "Installing YADM locally"

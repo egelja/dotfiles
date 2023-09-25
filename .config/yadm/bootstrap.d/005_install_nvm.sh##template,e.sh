@@ -10,7 +10,10 @@
 
 {% else %}
 
-echo "Installing NVM!"
+echo "*****************************************************************************"
+echo "                               INSTALLING NVM                                "
+echo "*****************************************************************************"
+
 nvm_latest_tag=$(
     curl -sL https://api.github.com/repos/nvm-sh/nvm/releases/latest |
         jq -r ".tag_name"

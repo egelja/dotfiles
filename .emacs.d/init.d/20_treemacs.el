@@ -70,7 +70,7 @@
           treemacs-recenter-after-tag-follow       nil
           treemacs-recenter-after-project-jump     'always
           treemacs-recenter-after-project-expand   'on-distance
-          treemacs-litter-directories              '("/node_modules" "/.venv" "/.cask")
+          treemacs-litter-directories              '("/node_modules" "/.venv" "/.cask" "/3rdparty" "/3rd-party" "third-party")
           treemacs-project-follow-into-home        nil
           treemacs-show-cursor                     nil
           treemacs-show-hidden-files               t
@@ -107,6 +107,23 @@
        (treemacs-git-mode 'simple)))
 
     (treemacs-hide-gitignored-files-mode -1))
+
+  ;; Fix icon alignment
+  (let ((face-spec 'doom-themes-treemacs-file-face)
+        (treemacs-all-the-icons-tab "\t"))
+    (treemacs-modify-theme "doom-colors"
+      :config
+      (progn
+        (treemacs-create-icon
+         :icon (format "%s %s\t"
+                       (all-the-icons-octicon "chevron-down" :height 0.75 :v-adjust 0.1 :face face-spec)
+                       (all-the-icons-octicon "file-directory" :v-adjust 0 :face face-spec))
+         :extensions (dir-open))
+        (treemacs-create-icon
+         :icon (format "%s\t%s\t"
+                       (all-the-icons-octicon "chevron-right" :height 0.75 :v-adjust 0.1 :face face-spec)
+                       (all-the-icons-octicon "file-directory" :v-adjust 0 :face face-spec))
+         :extensions (dir-closed)))))
   :bind
   (:map global-map
         ("M-0"       . treemacs-select-window)
@@ -117,9 +134,14 @@
         ("C-x t C-t" . treemacs-find-file)
         ("C-x t M-t" . treemacs-find-tag)))
 
-(use-package treemacs-icons-dired
-  :hook (dired-mode . treemacs-icons-dired-enable-once)
-  :ensure t)
+;; (use-package treemacs-icons-dired
+;;   :hook (dired-mode . treemacs-icons-dired-enable-once)
+;;   :ensure t)
+
+;; (use-package treemacs-all-the-icons
+;;   :after (treemacs all-the-icons)
+;;   :config
+;;   (treemacs-load-theme "all-the-icons"))
 
 (use-package treemacs-magit
   :after (treemacs magit)
@@ -130,10 +152,6 @@
 ;;   :ensure t
 ;;   :config (treemacs-set-scope-type 'Perspectives))
 
-;; (use-package treemacs-tab-bar ;;treemacs-tab-bar if you use tab-bar-mode
-;;   :after (treemacs)
-;;   :ensure t
-;;   :config (treemacs-set-scope-type 'Tabs))
 
 
 (provide '20_treemacs)

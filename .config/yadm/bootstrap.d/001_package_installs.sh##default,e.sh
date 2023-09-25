@@ -1,9 +1,17 @@
-#!/bin/bash
+#!/bin/bash -l
 # -*- mode: shell-script -*-
 
 #
 # Apt packages
 #
+echo "*****************************************************************************"
+echo "                          INSTALLING APT PACKAGES                            "
+echo "*****************************************************************************"
+
+if ! $PERSONAL_MACHINE; then
+    exit 0
+fi
+
 declare -a PACKAGES=(
     "emacs"
     "jq"

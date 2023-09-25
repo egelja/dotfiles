@@ -1,7 +1,9 @@
 #!/bin/bash
 # -*- mode: shell-script -*-
 
-echo "Installing lesspipe.sh!"
+echo "*****************************************************************************"
+echo "                            INSTALLING LESSPIPE.sh                           "
+echo "*****************************************************************************"
 
 cd "$HOME"
 git clone https://github.com/wofr06/lesspipe.git &&
