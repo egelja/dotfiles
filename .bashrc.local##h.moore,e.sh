@@ -12,3 +12,11 @@ mail-tests-done() {
 }
 
 ulimit -c unlimited
+
+# CAT
+export LLVM_HOME=/home/software/llvm
+export PATH="$LLVM_HOME/bin:$PATH"
+export LD_LIBRARY_PATH="$LLVM_HOME/lib:$LD_LIBRARY_PATH"
+
+export PATH="~/CAT/bin:$PATH"
+
