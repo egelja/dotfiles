@@ -12,3 +12,9 @@ export LC_ALL=en_US.UTF-8
 export GUROBI_HOME="/opt/gurobi/linux64"
 export PATH="${PATH}:${GUROBI_HOME}/bin"
 export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:${GUROBI_HOME}/lib"
+
+# Metis
+export LD_LIBRARY_PATH="$HOME/.local/lib:${LD_LIBRARY_PATH}"
+
+# CAT
+export PATH="$HOME/CAT/bin:$PATH"
