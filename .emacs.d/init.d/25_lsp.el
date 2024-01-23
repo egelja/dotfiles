@@ -24,7 +24,9 @@
 
 ;;; Code:
 
+;;
 ;; Snippets
+;;
 (use-package yasnippet
   :after (yasnippet-snippets)
   :config
@@ -40,12 +42,94 @@
   :config
   (yasnippet-radical-snippets-initialize))
 
-;; Company
-(use-package company
-  :config
-  (global-company-mode))
+;;
+;; Corfu (for completion)
+;;
+(use-package corfu
+  ;; Optional customizations
+  :custom
+  ;; (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
+  (corfu-auto t)                    ;; Enable auto completion
+  (corfu-quit-no-match 'separator)  ;; quit early if possible
+  ;; (corfu-separator ?\s)          ;; Orderless field separator
+  ;; (corfu-quit-at-boundary nil)   ;; Never quit at completion boundary
+  ;; (corfu-quit-no-match nil)      ;; Never quit, even if there is no match
+  ;; (corfu-preview-current nil)    ;; Disable current candidate preview
+  ;; (corfu-preselect 'prompt)      ;; Preselect the prompt
+  ;; (corfu-on-exact-match nil)     ;; Configure handling of exact matches
+  ;; (corfu-scroll-margin 5)        ;; Use scroll margin
 
+  (corfu-popupinfo-delay '(1.0 . 1.0))
+
+  ;; Enable Corfu only for certain modes.
+  ;; :hook ((prog-mode . corfu-mode)
+  ;;        (shell-mode . corfu-mode)
+  ;;        (eshell-mode . corfu-mode))
+
+  :init
+  ;; TAB cycle if there are only few candidates
+  (setq completion-cycle-threshold 3)
+
+  ;; Emacs 28: Hide commands in M-x which do not apply to the current mode.
+  ;; Corfu commands are hidden, since they are not supposed to be used via M-x.
+  (setq read-extended-command-predicate
+        #'command-completion-default-include-p)
+
+  ;; Enable indentation+completion using the TAB key.
+  ;; `completion-at-point' is often bound to M-TAB.
+  (setq tab-always-indent 'complete)
+
+  ;; Recommended: Enable Corfu globally.  This is recommended since Dabbrev can
+  ;; be used globally (M-/).  See also the customization variable
+  ;; `global-corfu-modes' to exclude certain modes.
+  :config
+  (global-corfu-mode)
+  (corfu-popupinfo-mode)
+  (corfu-history-mode))
+
+;; Use Dabbrev with Corfu!
+(use-package dabbrev
+  ;; Swap M-/ and C-M-/
+  :bind (("M-/" . dabbrev-completion)
+         ("C-M-/" . dabbrev-expand))
+  :config
+  (add-to-list 'dabbrev-ignored-buffer-regexps "\\` ")
+  ;; Since 29.1, use `dabbrev-ignored-buffer-regexps' on older.
+  (add-to-list 'dabbrev-ignored-buffer-modes 'doc-view-mode)
+  (add-to-list 'dabbrev-ignored-buffer-modes 'pdf-view-mode))
+
+;; Optionally use the `orderless' completion style.
+(use-package orderless
+  :config
+  ;; Configure a custom style dispatcher (see the Consult wiki)
+  ;; (setq orderless-style-dispatchers '(+orderless-dispatch)
+  ;;       orderless-component-separator #'orderless-escapable-split-on-space)
+  (setq completion-styles '(orderless basic)
+        completion-category-defaults nil
+        completion-category-overrides '((file (styles partial-completion)))))
+
+(use-package cape
+  :config
+  ;; https://github.com/minad/corfu/wiki
+  (with-eval-after-load 'eglot
+    ;; enable cache busting for eglot
+    (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster)
+    ;; use orderless completion for eglot
+    (setq completion-category-overrides '((eglot (styles orderless))
+                                          (eglot-capf (styles orderless))))))
+
+(use-package kind-icon
+  :ensure t
+  :after corfu
+  ;:custom
+  ; (kind-icon-blend-background t)
+  ; (kind-icon-default-face 'corfu-default) ; only needed with blend-background
+  :config
+  (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
+
+;;
 ;; Tree sitter (for syntax highlighting)
+;;
 (use-package tree-sitter
   :config
   (global-tree-sitter-mode)
@@ -54,19 +138,28 @@
 
 (use-package tree-sitter-langs)
 
+;;
 ;; Flymake (for showing errors)
+;;
 (use-package flymake
   :bind (:map flymake-mode-map
               ("C->" . flymake-goto-next-error)
               ("C-<" . flymake-goto-prev-error)))
 
+
+;;
+;; Eglot (the magic LSP thing)
+;;
+
+;; unbind F1 from help
+(global-set-key (kbd "<f1>") nil)
+
 ;; Unbind the STUPID 2-column mode from F2
 ;; Still bound to C-x 6 regardless
 (global-set-key (kbd "<f2>") nil)
 
-;; Eglot (the magic LSP thing)
 (use-package eglot
-  :after (company yasnippet)
+  :after (corfu yasnippet)
   :commands (eglot eglot-format eglot-rename)
   :autoload (eglot-current-server)
   :init
