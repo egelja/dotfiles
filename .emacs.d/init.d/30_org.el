@@ -27,22 +27,34 @@
 (use-package org
   :config
   ;; Auto break lines
-  (add-hook 'org-mode-hook #'(lambda () (setq fill-column 79)))
+  (add-hook 'org-mode-hook #'(lambda ()
+                               (setq fill-column 79)))
   (add-hook 'org-mode-hook #'auto-fill-mode)
   (add-hook 'org-mode-hook #'display-line-numbers-mode)
-  (add-hook 'org-mode-hook #'display-fill-column-indicator-mode))
+  (add-hook 'org-mode-hook #'display-fill-column-indicator-mode)
+  :bind
+  (("C-c l" . org-store-link)
+   ("C-c o" . org-capture)
+   ("C-c a" . org-agenda))
+  :custom
+  (org-log-done 'time)
+  (org-todo-keywords '("TODO(t)" "STARTED(s)" "WAITING(w)"
+                       "|" "DONE(d)" "CANCELED(c)"))
+  (org-tag-alist '((:startgroup . nil)
+                   ("@home"   . ?h)
+                   ("@school" . ?s)
+                   ("@work"   . ?w)
+                   (:endgroup . nil)
+                   (:newline  . nil)
+                   ("laptop"  . ?l)
+                   ("phone"   . ?p)
+                   ("offline" . ?o)))
+  (org-blank-before-new-entry '((heading         t)
+                                (plain-list-item auto))))
 
+;;
 ;; Org-roam
-;; (use-package emacsql-sqlite
-;;   :straight `(; *sigh* things be broken
-;;               :files
-;;               ("emacsql-sqlite.el" "sqlite" "emacsql-sqlite-pkg.el" "emacsql-sqlite-common.el")
-;;               :host github
-;;               :type git
-;;               :flavor melpa
-;;               :repo "magit/emacsql")
-;;   :defer 1)
-
+;;
 (use-package org-roam
   :defer 1
   :custom
@@ -80,7 +92,125 @@
         org-roam-ui-update-on-save t
         org-roam-ui-open-on-start t))
 
+;;
+;; ORG-JOURNAL
+;;
+
+(use-package org-journal
+  :demand t
+  :init
+  (setq org-journal-prefix-key "C-c j ")
+  :custom
+  (org-journal-dir "~/journal")
+  (org-journal-file-format "%F.org") ; ISO 8601
+  (org-journal-file-type 'daily) ; daily notes
+  (org-journal-date-format "%A, %d %B %Y")
+  (org-journal-enable-agenda-integration t)
+  (org-journal-carryover-items "TODO=\"TODO\"|TODO=\"STARTED\"|TODO=\"WAITING\"")
+  :config
+  ;; Set file header based on file type
+  (defun my/org-journal-file-header-func (time)
+    "Custom function to create journal header."
+    (concat
+     (pcase org-journal-file-type
+       (`daily "#+TITLE: Daily Journal\n#+STARTUP: content")
+       (`weekly "#+TITLE: Weekly Journal\n#+STARTUP: folded")
+       (`monthly "#+TITLE: Monthly Journal\n#+STARTUP: folded")
+       (`yearly "#+TITLE: Yearly Journal\n#+STARTUP: folded"))))
+  (setq org-journal-file-header 'my/org-journal-file-header-func)
+  ;; Work with org-capture
+  (defvar org-journal--date-location-scheduled-time nil)
+  
+  (defun my/org-journal-location-journal ()
+    ;; Open today's journal, but specify a non-nil prefix argument in order to
+    ;; inhibit inserting the heading; org-capture will insert the heading.
+    (org-journal-new-entry t)
+    (unless (eq org-journal-file-type 'daily)
+      (org-narrow-to-subtree))
+    ;; Search for "Journal" headline
+    (goto-char (point-min))
+    (if (re-search-forward (format org-complex-heading-regexp-format
+                                   (regexp-quote "Journal"))
+                           nil t)
+        (goto-char (point-max))
+      (goto-char (point-max))
+      (unless (bolp) (insert "\n"))
+      (insert "\n\n" "* Journal" "\n")))
+  
+  (defun my/org-journal-location-todo (&optional scheduled-time)
+    (let ((scheduled-time (or scheduled-time (org-read-date nil nil nil "Date:"))))
+      (setq org-journal--date-location-scheduled-time scheduled-time)
+      (org-journal-new-entry t (org-time-string-to-time scheduled-time))
+      (unless (eq org-journal-file-type 'daily)
+        (org-narrow-to-subtree))
+      ;; Search for "Journal" headline, and start right before
+      (goto-char (point-min))
+      (if (re-search-forward (format org-complex-heading-regexp-format
+                                     (regexp-quote "Maybe do today"))
+                             nil t)
+          (progn
+            (forward-line 0)
+            (open-line 1))
+        (if (re-search-forward (format org-complex-heading-regexp-format
+                                   (regexp-quote "Journal"))
+                               nil t)
+            (progn
+              (forward-line 0)
+              (open-line 1))
+          (goto-char (point-max))))))
+  
+  (defun my/org-journal-location-maybe-todo (&optional scheduled-time)
+    (let ((scheduled-time (or scheduled-time (org-read-date nil nil nil "Date:"))))
+      (setq org-journal--date-location-scheduled-time scheduled-time)
+      (org-journal-new-entry t (org-time-string-to-time scheduled-time))
+      (unless (eq org-journal-file-type 'daily)
+        (org-narrow-to-subtree))
+      ;; Search for "Journal" headline, and start right before
+      (goto-char (point-min))
+      (let ((has-header (re-search-forward (format org-complex-heading-regexp-format
+                                     (regexp-quote "Maybe do today"))
+                             nil t)))
+        (if (re-search-forward (format org-complex-heading-regexp-format
+                                       (regexp-quote "Journal"))
+                               nil t)
+            (progn
+              (forward-line 0)
+              (open-line 1)
+              (unless has-header
+                (unless (bolp) (insert "\n"))
+                (insert "\n\n" "* Maybe do today" "\n")))
+          (goto-char (point-max))
+          (unless has-header
+            (unless (bolp) (insert "\n"))
+            (insert "\n\n" "* Maybe do today" "\n"))))))
+
+  (setq org-capture-templates
+        '(("j"
+           "Journal entry"
+           plain
+           (function my/org-journal-location-journal)
+           "** %(format-time-string org-journal-time-format)%^{Title}\n%i%?"
+           :jump-to-captured t
+           :immediate-finish t)
+          ("t"
+           "Task"
+           plain
+           (function my/org-journal-location-todo)
+           "** TODO %?\n <%(princ org-journal--date-location-scheduled-time)>\n"
+           :jump-to-captured t)
+          ("m"
+           "Possible task"
+           plain
+           (function my/org-journal-location-maybe-todo)
+           "** TODO %?\n <%(princ org-journal--date-location-scheduled-time)>\n"
+           :jump-to-captured t))))
+
+(message "%s" (org-agenda-files))
+
+
+;;
 ;; Alerts (for org agenda)
+;;
 ;; TODO
 (use-package alert
   :defer 3

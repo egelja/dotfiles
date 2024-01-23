@@ -73,6 +73,7 @@
 ;; Keycast
 ;; https://github.com/seagle0128/doom-modeline/issues/122#issuecomment-1133838869
 (use-package keycast
+  :disabled
   :config
   (defun my/toggle-keycast()
     (interactive)
@@ -172,6 +173,9 @@
                      (projects . 5)
                      (agenda . 5)
                      (registers . 5)))
+  (dashboard-agenda-prefix-format " %s ")
+  (dashboard-filter-agenda-entry 'dashboard-filter-agenda-by-todo)
+  (dashboard-agenda-sort-strategy '(time-up priority-down))
   (dashboard-navigator-buttons
    ;; Format: "(icon title help action face prefix suffix)"
    `(;; line1
@@ -179,23 +183,21 @@
        "Github"
        "Open Github"
        (lambda (&rest _) (browse-url "https://github.com/egelja?tab=repositories")))
-      (,(all-the-icons-material "school" :height 1.1 :v-adjust -0.25)
+      (,(all-the-icons-material "school" :height 1.1 :v-adjust -0.20)
        "Canvas"
        "Open Canvas"
-       (lambda (&rest _) (browse-url "https://canvas.northwestern.edu"))))
-     ;; line 2
-     ;; ((,(all-the-icons-faicon "linkedin" :height 1.1 :v-adjust 0.0)
-     ;;   "Linkedin"
-     ;;   ""
-     ;;   (lambda (&rest _) (browse-url "homepage")))
-     ;;  (" " nil "Show flags" (lambda (&rest _) (message "flag")) error)))))
-     )))
+       (lambda (&rest _) (browse-url "https://canvas.northwestern.edu")))
+      (,(all-the-icons-faicon "linkedin" :height 1.1 :v-adjust 0.0)
+       "Linkedin"
+       ""
+       (lambda (&rest _) (browse-url "https://www.linkedin.com/in/nikola-maruszewski")))))))
 
 ;;
 ;; Zone mode
 ;; https://www.emacswiki.org/emacs/ZoneMode
 ;;
 (use-package zone
+  :defer 10
   :config
   ;; Define a new Zone program
   (defun zone-pgm-md5 ()

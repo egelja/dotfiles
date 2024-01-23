@@ -24,15 +24,24 @@
 
 ;;; Code:
 
+;; Code screenshots
+(use-package screenshot
+  :disabled
+  :if (not (is-windows-p))
+  :straight
+  (:type git :host github :repo "tecosaur/screenshot"))
+
 ;; Window jumping
 (use-package ace-window
   :bind ("C-x o" . ace-window)
   :config
   (push "*eldoc*" aw-ignored-buffers)
+  (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
   (ace-window-display-mode 1))
 
 ;; Monitor keys pressed
 (use-package keyfreq
+  :defer 10
   :config
   (keyfreq-mode 1)
   (keyfreq-autosave-mode 1))
@@ -54,10 +63,13 @@
 
 ;; Line jumping
 (use-package avy
+  :after (verilog-mode)
   :bind
   ("C-;" . avy-goto-char-timer)
   ("C-:" . avy-goto-line)
-  ("C-c C-j" . avy-resume))
+  ("C-c C-j" . avy-resume)
+  (:map verilog-mode-map
+        ("C-;" . avy-goto-char-timer)))
 
 ;; Multiple cursors
 (use-package multiple-cursors
@@ -116,8 +128,7 @@
 ;;
 ;; GIT stuff
 ;;
-(use-package magit
-  :commands (magit-status))
+(use-package magit)
 
 (use-package git-modes)
 

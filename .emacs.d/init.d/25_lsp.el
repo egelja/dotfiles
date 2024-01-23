@@ -107,7 +107,8 @@
   (eglot-confirm-server-initiated-edits nil)
   :bind
   (("<f2>" . my/eglot-rename)
-   ("<f1>" . my/eglot-start-or-format)))
+   ("<f1>" . my/eglot-start-or-format)
+   ("C-'" . eglot-code-actions)))
 
 (use-package eldoc)
 

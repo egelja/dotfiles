@@ -101,6 +101,5 @@
 ;; Turn off debugging on error now that we've finished loading
 (setq debug-on-error nil)
 
-
 (provide 'init)
 ;;; init.el ends here
