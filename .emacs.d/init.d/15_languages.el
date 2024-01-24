@@ -60,9 +60,6 @@
     ;; Pytest (for python-pytest)
     (setq-local python-pytest-executable (pet-executable-find "pytest"))
 
-    ;; Flycheck
-    (pet-flycheck-setup)
-    
     ;; Eglot
     (with-eval-after-load 'eglot
       (setq-local eglot-server-programs

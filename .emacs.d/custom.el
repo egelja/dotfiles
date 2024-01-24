@@ -6,7 +6,7 @@
  '(TeX-print-command "start \"\" %f")
  '(age-debug t)
  '(current-language-environment "UTF-8")
- '(org-agenda-files '("c:/Users/Nino Maruszewski/journal/2023-09-15.org"))
+ '(org-agenda-files '("c:/Users/Nino Maruszewski/journal/2024-01-24.org"))
  '(org-agenda-loop-over-headlines-in-active-region nil)
  '(org-agenda-prefix-format
    '((dashboard-agenda . " %s ")

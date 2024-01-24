@@ -24,6 +24,11 @@
 
 ;;; Code:
 
+;; TURN OFF THE MOUSE
+(use-package disable-mouse
+  :config
+  (global-disable-mouse-mode))
+
 ;; Code screenshots
 (use-package screenshot
   :disabled
@@ -46,11 +51,11 @@
   (keyfreq-mode 1)
   (keyfreq-autosave-mode 1))
 
-;; Highlight todo messages in code
+;; Highlight "TODO" messages in code
 (use-package hl-todo
   :hook ((prog-mode LaTeX-mode TeX-mode) . hl-todo-mode)
   :config
-  (push '("\\todo" . "#cc9393")
+  (push '("\\todo" . "#cc9393")         ; lowercase TODOs too (i.e., latex)
         hl-todo-keyword-faces))
 
 ;; Line moving
@@ -66,7 +71,7 @@
   :after (verilog-mode)
   :bind
   ("C-;" . avy-goto-char-timer)
-  ("C-:" . avy-goto-line)
+  ("C-'" . avy-goto-line)
   ("C-c C-j" . avy-resume)
   (:map verilog-mode-map
         ("C-;" . avy-goto-char-timer)))
@@ -78,34 +83,6 @@
   ("C-}" . mc/mark-next-like-this)
   ("C-{" . mc/mark-previous-like-this))
 
-;; Search
-(use-package ivy
-  :config
-  (ivy-mode)
-  :custom
-  (ivy-use-virtual-buffers t)
-  (ivy-count-format "(%d/%d) "))
-
-(use-package counsel
-  :ensure-system-package (rg . ripgrep)
-  :custom
-  (counsel-rg-base-command
-   "rg -S -M 240 --with-filename --no-heading --line-number --color never %s .")
-  ;; https://oremacs.com/2017/08/04/ripgrep/
-  (counsel-grep-base-command
-   "rg -i -M 240 --no-heading --line-number --color never '%s' %s")
-  :config
-  (counsel-mode)
-  :bind
-  (("C-s" . counsel-grep-or-swiper)
-   ("C-r" . counsel-rg)))
-
-(use-package ivy-prescient ; improve search ordering
-  :config
-  (ivy-prescient-mode t)
-  ;; https://github.com/radian-software/prescient.el/issues/43
-  (setf (alist-get 'counsel-rg ivy-re-builders-alist) #'ivy--regex-plus))
-
 ;; Zoxide
 (use-package zoxide.el
   :bind
@@ -113,17 +90,14 @@
 
 ;; Better help menus
 (use-package helpful
-  :after (counsel)
   :bind
   (("C-h f" . helpful-callable)
    ("C-h v" . helpful-variable)
    ("C-h k" . helpful-key)
    ("C-c C-d" . helpful-at-point)
    ("C-h F" . helpful-function)
-   ("C-h C" . helpful-command))
-  :custom
-  (counsel-describe-function-function #'helpful-callable)
-  (counsel-describe-variable-function #'helpful-variable))
+   ("C-h C" . helpful-command)))
+
 
 ;;
 ;; GIT stuff

@@ -98,16 +98,7 @@
   (add-to-list 'dabbrev-ignored-buffer-modes 'doc-view-mode)
   (add-to-list 'dabbrev-ignored-buffer-modes 'pdf-view-mode))
 
-;; Optionally use the `orderless' completion style.
-(use-package orderless
-  :config
-  ;; Configure a custom style dispatcher (see the Consult wiki)
-  ;; (setq orderless-style-dispatchers '(+orderless-dispatch)
-  ;;       orderless-component-separator #'orderless-escapable-split-on-space)
-  (setq completion-styles '(orderless basic)
-        completion-category-defaults nil
-        completion-category-overrides '((file (styles partial-completion)))))
-
+;; Fix completions when using eglot
 (use-package cape
   :config
   ;; https://github.com/minad/corfu/wiki
@@ -118,6 +109,7 @@
     (setq completion-category-overrides '((eglot (styles orderless))
                                           (eglot-capf (styles orderless))))))
 
+;; Icons for the corfu completion
 (use-package kind-icon
   :ensure t
   :after corfu
@@ -201,7 +193,7 @@
   :bind
   (("<f2>" . my/eglot-rename)
    ("<f1>" . my/eglot-start-or-format)
-   ("C-'" . eglot-code-actions)))
+   ("C-:" . eglot-code-actions)))
 
 (use-package eldoc)
 
