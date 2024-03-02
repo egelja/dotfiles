@@ -1,0 +1,5 @@
+# -*- mode: conf-unix -*-
+[user]
+	name = Nikola Maruszewski
+	email = nino.maruszewski@gmail.com
+	signingKey = ~/.ssh/id_ed25519.pub
