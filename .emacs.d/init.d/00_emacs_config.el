@@ -118,7 +118,9 @@
   (add-to-list 'tramp-remote-path
                'tramp-own-remote-path)
   (add-to-list 'tramp-remote-path
-               "~/.local/bin"))
+               "~/.local/bin")
+  (add-to-list 'tramp-remote-path
+               "~/go/bin"))
 
 ;; Add a command to revert all buffers
 (defun revert-all-buffers ()
@@ -126,6 +128,9 @@
   (dolist (buff (buffer-list))
     (ignore-errors  ; for buffers w/o files
       (revert-buffer buff))))
+
+;; enable narrowing
+(put 'narrow-to-region 'disabled nil)
 
 (provide '00_emacs_config)
 ;;; 00_emacs_config.el ends here

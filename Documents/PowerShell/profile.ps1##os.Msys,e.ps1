@@ -15,6 +15,8 @@ Set-Alias -Force cat "bat.exe"
 Set-Alias grep rg.exe
 Set-Alias less "C:\msys64\usr\bin\less.exe"
 
+Set-Alias pio "$ENV:USERPROFILE\.platformio\penv\Scripts\pio.exe"
+
 # VirtualEnvWrapper
 $PSConfigDir = Split-Path $PROFILE.CurrentUserAllHosts
 $VenvWrapperScript = "$PSConfigDir\Modules\VirtualEnvWrapper.psm1"

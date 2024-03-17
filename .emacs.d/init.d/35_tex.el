@@ -27,7 +27,6 @@
 ; https://www.mail-archive.com/bug-auctex@gnu.org/msg04164.html 	
 (use-package tex-mik
   :straight auctex
-  :defer 1
   :mode ("\\.tex\\'" . LaTeX-mode)
   :config
   (setq-default TeX-master nil)
@@ -55,7 +54,6 @@
   (procress-load-default-svg-images))
 
 (use-package pdf-tools
-  :defer 2
   :config
   (pdf-loader-install))
 

@@ -34,6 +34,7 @@
   (c-set-offset 'template-args-cont '++)
   (c-set-offset 'inline-open 0)
   (c-set-offset 'case-label 4)
+  (c-set-offset 'inextern-lang 0)
   (c-set-offset 'arglist-close 0))
 (add-hook 'c-mode-common-hook #'my/c-mode-common-hook)
 
@@ -59,9 +60,6 @@
     ;; Pytest (for python-pytest)
     (setq-local python-pytest-executable (pet-executable-find "pytest"))
 
-    ;; Flycheck
-    (pet-flycheck-setup)
-    
     ;; Eglot
     (with-eval-after-load 'eglot
       (setq-local eglot-server-programs
@@ -89,6 +87,12 @@
   :mode "\\.jl\\'"
   :interpreter "julia")
 
+(use-package kconfig-mode
+  :config
+  (defun my/kconfig-hook ()
+    (setq-local indent-tabs-mode t))
+  (add-hook 'kconfig-mode-hook #'my/kconfig-hook))
+
 (use-package llvm-mode
   :straight nil)
 
@@ -97,6 +101,7 @@
   :mode "\\.qasm\\'")
 
 (use-package markdown-mode
+  :demand t                             ; so we have it ready for eglot
   :mode "\\.md\\'"
   :config
   (add-hook 'markdown-mode-hook #'display-fill-column-indicator-mode))
@@ -112,6 +117,12 @@
 
 (use-package typescript-mode
   :mode "\\.tsx?\\'")
+
+(use-package verilog-mode
+  :demand t
+  :mode "\\.v\\'"
+  :custom
+  (verilog-auto-newline nil))
 
 (use-package yaml-mode
   :mode "\\.ya?ml\\'"

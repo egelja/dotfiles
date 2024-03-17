@@ -25,10 +25,11 @@ function latex {
     Get-ChildItem *.pdf | foreach { Start-Process $_ }
 }
 
-# LSD aliases
+# Eza aliases
 Remove-Alias -Force ls
-function ls { lsd -l @args }
-function la { lsd -la @args }
+function ls { eza --icons @args }
+function ll { eza -lh --icons @args }
+function la { eza -lah --icons @args }
 
 #
 # PSReadLine
