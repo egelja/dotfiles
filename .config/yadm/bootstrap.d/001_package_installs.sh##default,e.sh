@@ -1,6 +1,9 @@
 #!/bin/bash -l
 # -*- mode: shell-script -*-
 
+# BROKEN
+exit 0
+
 #
 # Apt packages
 #
