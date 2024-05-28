@@ -74,10 +74,10 @@ if [ -x /usr/bin/dircolors ]; then
 fi
 
 # Command replacements
-which bat > /dev/null 2>&1 && alias cat="bat"
-which rg  > /dev/null 2>&1 && alias grep="rg"
+command -v bat > /dev/null 2>&1 && alias cat="bat"
+command -v rg  > /dev/null 2>&1 && alias grep="rg"
 
-if which batcat > /dev/null 2>&1; then # bat named batcat on ubuntu
+if command -v batcat > /dev/null 2>&1; then # bat named batcat on ubuntu
     alias bat=batcat
     alias cat=batcat
 fi

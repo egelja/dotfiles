@@ -91,6 +91,10 @@ export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quo
 #   sleep 10; alert
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
+# Rust environment
+# Early since we may install things this way that we check for in bash_aliases
+[[ -s "$HOME/.cargo/env" ]] && . "$HOME/.cargo/env"
+
 # Local bash environment
 if [ -f ~/.bashrc.local ]; then
     . ~/.bashrc.local
@@ -122,6 +126,8 @@ if ! shopt -oq posix; then
         . /usr/share/bash-completion/bash_completion
     elif [ -f /etc/bash_completion ]; then
         . /etc/bash_completion
+    elif [ -f "$HOME/.local/share/bash-completion/bash_completion" ]; then
+        . "$HOME/.local/share/bash-completion/bash_completion"
     fi
 fi
 
@@ -161,15 +167,15 @@ if [[ $(uname -o) != "Msys" ]]; then
 fi
 
 # Thefuck
-eval "$(thefuck --alias)" || true
+command -v thefuck > /dev/null 2>&1 && eval "$(thefuck --alias)"
+
+# Fzf
+command -v fzf > /dev/null 2>&1 && eval "$(fzf --bash)"
 
 # NVM Init
 export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"                   # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion
-
-# Rust environment
-[[ -s "$HOME/.cargo/env" ]] && . "$HOME/.cargo/env"
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="$HOME/.sdkman"
