@@ -118,18 +118,25 @@ if [ -f ~/.bash_functions ]; then
     . ~/.bash_functions
 fi
 
+# Fzf
+# Needs to be done before completions for reasons
+command -v fzf > /dev/null 2>&1 && eval "$(fzf --bash)"
+
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
 # sources /etc/bash.bashrc).
 if ! shopt -oq posix; then
-    if [ -f /usr/share/bash-completion/bash_completion ]; then
+    if [ -f "${XDG_DATA_HOME:-$HOME/.local/share}"/bash-completion/bash_completion ] ; then
+        . "${XDG_DATA_HOME:-$HOME/.local/share}"/bash-completion/bash_completion
+    elif [ -f /usr/share/bash-completion/bash_completion ]; then
         . /usr/share/bash-completion/bash_completion
     elif [ -f /etc/bash_completion ]; then
         . /etc/bash_completion
-    elif [ -f "$HOME/.local/share/bash-completion/bash_completion" ]; then
-        . "$HOME/.local/share/bash-completion/bash_completion"
     fi
 fi
+
+# Enable completion of aliases
+export COMPAL_AUTO_UNMASK=1
 
 if [[ -f "${XDG_DATA_HOME:-$HOME/.local/share}"/bash-completion/complete_alias ]]; then
     . "${XDG_DATA_HOME:-$HOME/.local/share}"/bash-completion/complete_alias
@@ -169,13 +176,9 @@ fi
 # Thefuck
 command -v thefuck > /dev/null 2>&1 && eval "$(thefuck --alias)"
 
-# Fzf
-command -v fzf > /dev/null 2>&1 && eval "$(fzf --bash)"
-
-# NVM Init
-export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"                   # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion
+# asdf
+. "$HOME/.asdf/asdf.sh"
+. "$HOME/.asdf/completions/asdf.bash"
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="$HOME/.sdkman"

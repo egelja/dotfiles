@@ -50,6 +50,9 @@ min_time = 0
 show_milliseconds = true
 show_notifications = true
 
+[container]
+disabled = true
+
 [dart]
 symbol = " "
 
