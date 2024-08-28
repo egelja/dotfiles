@@ -28,6 +28,7 @@
   (or (string-search "__pycache__" absolute-path)))
 
 (use-package treemacs
+  :disabled
   :ensure t
   :defer t
   :init

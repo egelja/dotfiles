@@ -37,10 +37,11 @@
     (setq-local fill-column 79)
     (auto-fill-mode 1)
     (display-fill-column-indicator-mode 1))
-  (add-hook 'tex-mode-hook #'my/tex-common-hook)
-  (add-hook 'TeX-mode-hook #'my/tex-common-hook)
-  (add-hook 'latex-mode-hook #'my/tex-common-hook)
-  (add-hook 'LaTeX-mode-hook #'my/tex-common-hook)
+  :hook
+  ((tex-mode   . my/tex-common-hook)
+   (TeX-mode   . my/tex-common-hook)
+   (latex-mode . my/tex-common-hook)
+   (LaTeX-mode . my/tex-common-hook))
   :custom
   (TeX-auto-save t)
   (TeX-parse-self t))

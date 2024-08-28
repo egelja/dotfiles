@@ -40,7 +40,7 @@
 (use-package ace-window
   :bind ("C-x o" . ace-window)
   :config
-  (push "*eldoc*" aw-ignored-buffers)
+  ;(push "*eldoc*" aw-ignored-buffers)
   (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
   (ace-window-display-mode 1))
 
@@ -120,6 +120,12 @@
   ;(setq age-program "rage")
   (age-file-enable)
   (push "~/.authinfo.age" auth-sources))
+
+(use-package smartparens
+  :hook ((prog-mode text-mode markdown-mode) . smartparens-mode) ;; add `smartparens-mode` to these hooks
+  :config
+  ;; load default config
+  (require 'smartparens-config))
 
 
 (provide '10_editing)

@@ -56,7 +56,7 @@
           #'executable-make-buffer-file-executable-if-script-p)
 
 ;; Fill column
-(setq-default fill-column 79) ; zero indexed
+(setq-default fill-column 99) ; zero indexed
 (add-hook 'prog-mode-hook
           #'display-fill-column-indicator-mode)
 
@@ -131,6 +131,20 @@
 
 ;; enable narrowing
 (put 'narrow-to-region 'disabled nil)
+
+;; Give backspace a better mapping to save my pinky
+(progn
+  ;; map backspace [delete-backward-char] to C-h
+  (define-key key-translation-map [?\C-?] [?\C-h]) 
+
+  ;; map M-backspace [backward-kill-word] to M-h
+  (define-key key-translation-map [?\M-\d] [?\M-h])
+
+  ;; map C-h to backspace
+  (define-key key-translation-map [?\C-h] [?\C-?])
+
+  ;; map M-h [mark-paragraph] to M-backspace
+  (define-key key-translation-map [?\M-h] [?\M-\d]))
 
 (provide '00_emacs_config)
 ;;; 00_emacs_config.el ends here

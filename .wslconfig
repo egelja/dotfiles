@@ -1,2 +1,3 @@
 [wsl2]
 memory=6GB
+kernelCommandLine = vsyscall=emulate

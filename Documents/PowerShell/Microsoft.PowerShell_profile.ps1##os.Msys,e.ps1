@@ -82,8 +82,9 @@ Set-PSFzfOption `
   -EnableAliasFuzzyGitStatus `
   -EnableAliasFuzzyHistory `
   -EnableAliasFuzzyKillProcess `
-  -EnableAliasFuzzySetLocation `
-  -EnableAliasFuzzySetEverything
+  -EnableAliasFuzzySetEverything `
+  -EnableFd
+#  -EnableAliasFuzzySetLocation
 
 Set-Alias fscoop Invoke-FuzzyScoop
 

@@ -83,9 +83,15 @@
   :mode "\\.gcode\\'"
   :hook (gcode-mode . eldoc-mode))
 
+(use-package go-mode
+  :mode "\\.go\\'")
+
 (use-package julia-mode
   :mode "\\.jl\\'"
   :interpreter "julia")
+
+(use-package just-mode
+  :mode "\\Justfile\\'")
 
 (use-package kconfig-mode
   :config
