@@ -12,10 +12,11 @@ activate() {
     . .venv/bin/activate || . .venv/Scripts/activate
 }
 
+# emacs on the terminal
+alias em='emacsclient --alternate-editor="" -c -nw'
+
 # clear
 alias c=clear
-
-alias make="make -j"
 
 # Tmux
 alias tn="tmux new-session -A -s"
@@ -75,7 +76,6 @@ fi
 
 # Command replacements
 command -v bat > /dev/null 2>&1 && alias cat="bat"
-command -v rg  > /dev/null 2>&1 && alias grep="rg"
 
 if command -v batcat > /dev/null 2>&1; then # bat named batcat on ubuntu
     alias bat=batcat
