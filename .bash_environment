@@ -49,3 +49,7 @@ if which virtualenvwrapper.sh > /dev/null 2>&1; then
     export VIRTUALENVWRAPPER_WORKON_CD=0nn
     . `which virtualenvwrapper.sh`
 fi
+
+# FZF
+export FZF_DEFAULT_COMMAND="fd --type file --color=always"
+export FZF_DEFAULT_OPTS="--ansi"
