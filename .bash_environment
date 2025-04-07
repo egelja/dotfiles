@@ -1,3 +1,6 @@
+#!/bin/bash
+# -*- mode: bash -*-
+
 # Environment variable definitions
 
 # Local bin
@@ -44,12 +47,12 @@ fi
 export PYTHONIOENCODING="utf-8"
 
 # virtualenvwrapper setup
-if which virtualenvwrapper.sh > /dev/null 2>&1; then
-    export WORKON_HOME="$HOME/.virtualenvs"
-    export VIRTUALENVWRAPPER_WORKON_CD=0nn
-    . `which virtualenvwrapper.sh`
-fi
+# if which virtualenvwrapper.sh > /dev/null 2>&1; then
+#     export WORKON_HOME="$HOME/.virtualenvs"
+#     export VIRTUALENVWRAPPER_WORKON_CD=0nn
+#     . `which virtualenvwrapper.sh`
+# fi
 
 # FZF
-export FZF_DEFAULT_COMMAND="fd --type file --color=always"
+export FZF_DEFAULT_COMMAND="fd --type file --color=always -H"
 export FZF_DEFAULT_OPTS="--ansi"

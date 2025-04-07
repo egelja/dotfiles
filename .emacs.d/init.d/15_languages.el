@@ -79,6 +79,9 @@
 (use-package cmake-mode
   :mode ("\\.cmake\\'" "CMakeLists.txt\\'"))
 
+(use-package dockerfile-mode
+  :mode ("Dockerfile\\'" "\\.dockerfile\\'"))
+
 (use-package gcode-mode
   :mode "\\.gcode\\'"
   :hook (gcode-mode . eldoc-mode))

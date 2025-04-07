@@ -102,6 +102,10 @@
 ;;
 ;; GIT stuff
 ;;
+(use-package sqlite3
+  :demand t
+  :if (version< emacs-version "29.1"))
+
 (use-package magit)
 
 (use-package git-modes)
